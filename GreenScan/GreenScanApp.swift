@@ -9,9 +9,13 @@ import SwiftUI
 
 @main
 struct GreenScanApp: App {
+    
+    @StateObject var viewModelScanner = ScannerViewModel()
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            
+            ContentView(viewModelScanner: viewModelScanner)
         }
     }
 }
