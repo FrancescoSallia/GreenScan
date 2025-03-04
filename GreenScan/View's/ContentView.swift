@@ -11,22 +11,30 @@ import CodeScanner
 struct ContentView: View {
   
     @ObservedObject var viewModelScanner: ScannerViewModel
+    @State var isScanning: Bool = false // funktioniert noch nicht teste es aus mit dem farben
+
 
     var body: some View {
         VStack {
-            CodeScannerView(codeTypes: [.qr, .ean8, .ean13, .aztec], scanMode: .continuous) { result in
-                switch result {
-                case .success(let code):
-                    viewModelScanner.scannedBarcode = code.string  // Neuen Barcode speichern
-                    print(viewModelScanner.scannedProduct?.product?.id ?? "Produkttitel nicht verfügbar")
-                    viewModelScanner.scannedProduct = nil  // Altes Produkt zurücksetzen
-                    viewModelScanner.isLoading = true   // Ladezustand anzeigen
-                    Task {
-                        await viewModelScanner.getScannedProducts()
+            ZStack {
+                RoundedRectangle(cornerRadius: 10)
+                    .border(isScanning ? Color.green : Color.clear, width: 2)
+                    .frame(width: 200, height: 200)
+                CodeScannerView(codeTypes: [.qr, .ean8, .ean13, .aztec], scanMode: .continuous) { result in
+                    switch result {
+                    case .success(let code):
+                        isScanning.toggle()
+                        viewModelScanner.scannedBarcode = code.string  // Neuen Barcode speichern
+                        print(viewModelScanner.scannedProduct?.product?.id ?? "Produkttitel nicht verfügbar")
+                        viewModelScanner.scannedProduct = nil  // Altes Produkt zurücksetzen
+                        viewModelScanner.isLoading = true   // Ladezustand anzeigen
+                        Task {
+                            await viewModelScanner.getScannedProducts()
+                        }
+                        viewModelScanner.showSheet = true
+                    case .failure(let error):
+                        print("Fehler: \(error)")
                     }
-                    viewModelScanner.showSheet = true
-                case .failure(let error):
-                    print("Fehler: \(error)")
                 }
             }
 
