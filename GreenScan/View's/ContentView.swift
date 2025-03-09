@@ -36,6 +36,11 @@ struct ContentView: View {
                         print("Fehler: \(error)")
                     }
                 }
+                RoundedRectangle(cornerRadius: 10)
+                    .border(isScanning ? Color.green : Color.black, width: 4)
+                    .border(viewModelScanner.showSheet ? Color.green : Color.black, width: 4)
+                    .frame(width: 200, height: 200)
+                    .foregroundStyle(.clear)
             }
 
             Button {
