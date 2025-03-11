@@ -19,8 +19,14 @@ struct GreenScanApp: App {
     
     var body: some Scene {
         WindowGroup {
-            
-            ScannerView(viewModelScanner: viewModelScanner)
+            TabView {
+                Tab("Scanner", systemImage: "barcode.viewfinder") {
+                    ScannerView(viewModelScanner: viewModelScanner)
+                }
+                Tab("Verlauf", systemImage: "clock.arrow.trianglehead.counterclockwise.rotate.90") {
+                    ListsView(viewModelScanner: viewModelScanner)
+                }
+            }
         }
     }
 }

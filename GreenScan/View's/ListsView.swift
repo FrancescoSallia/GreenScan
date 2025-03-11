@@ -11,6 +11,8 @@ import CodeScanner
 struct ListsView: View {
     
 //    var scannedProduct: Result<ScanResult, ScanError>
+    @ObservedObject var viewModelScanner: ScannerViewModel
+
     var body: some View {
         
         Picker("Sortieren nach", selection: .constant("Verlauf")) {
@@ -19,6 +21,22 @@ struct ListsView: View {
         }
         .pickerStyle(.segmented)
         .padding()
+        
+        VStack {
+            
+            AsyncImage(url: URL(string: viewModelScanner.scannedProduct?.product?.image_url ?? "No URL")) { pic in
+                pic
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 150, height: 180)
+                
+            } placeholder: {
+                
+                ProgressView()
+                    .progressViewStyle(.circular)
+            }
+
+        }
         
         
         
@@ -31,5 +49,5 @@ struct ListsView: View {
     }
 }
 #Preview {
-    ListsView()
+    ListsView(viewModelScanner: ScannerViewModel())
 }

@@ -15,9 +15,6 @@ struct ScannerView: View {
     var body: some View {
         VStack {
             ZStack {
-                RoundedRectangle(cornerRadius: 10)
-                    .border(viewModelScanner.isScanning ? Color.green : Color.clear, width: 2)
-                    .frame(width: 200, height: 200)
                 CodeScannerView(codeTypes: [.qr, .ean8, .ean13, .aztec], scanMode: .continuous) { result in
                     switch result {
                     case .success(let code):
@@ -37,7 +34,7 @@ struct ScannerView: View {
                 RoundedRectangle(cornerRadius: 12)
                     .border(viewModelScanner.isScanning ? Color.green : Color.black, width: 4)
                     .border(viewModelScanner.showSheet ? Color.green : Color.black, width: 4)
-                    .frame(width: 200, height: 200)
+                    .frame(width: 270, height: 150)
                     .foregroundStyle(.clear)
             }
 
