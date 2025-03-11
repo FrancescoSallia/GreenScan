@@ -14,6 +14,8 @@ class ScannerViewModel: ObservableObject {
     @Published var showSheet: Bool = false
     @Published var scannedBarcode: String = ""
     @Published var isLoading: Bool = false
+    @Published var isScanning: Bool = false
+
     
     
     private let client = HttpClient()

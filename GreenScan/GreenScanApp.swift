@@ -6,16 +6,21 @@
 //
 
 import SwiftUI
+import FirebaseCore
 
 @main
 struct GreenScanApp: App {
+    
+    init() {
+        FirebaseApp.configure()
+    }
     
     @StateObject var viewModelScanner = ScannerViewModel()
     
     var body: some Scene {
         WindowGroup {
             
-            ContentView(viewModelScanner: viewModelScanner)
+            ScannerView(viewModelScanner: viewModelScanner)
         }
     }
 }
