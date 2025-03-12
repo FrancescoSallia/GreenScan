@@ -11,6 +11,9 @@ import CodeScanner
 struct ScannerView: View {
   
     @ObservedObject var viewModelScanner: ScannerViewModel
+    let gradient = LinearGradient(colors: [.brown.opacity(0.5), .green.opacity(0.5)], startPoint: .top, endPoint: .bottom)
+    //    let gradient = LinearGradient(colors: [.brown.opacity(0.5), .orange.opacity(0.5)], startPoint: .top, endPoint: .bottom)
+//    let gradient = LinearGradient(colors: [.brown.opacity(0.5), .red.opacity(0.5)], startPoint: .top, endPoint: .bottom)
 
     var body: some View {
         VStack {
@@ -51,144 +54,174 @@ struct ScannerView: View {
 //           }
 //        }
         .sheet(isPresented: $viewModelScanner.showSheet) {
-            VStack {
-                if viewModelScanner.isLoading {
-                    
-                    ProgressView("Lädt Produkt...")
-                    
-                } else if let product = viewModelScanner.scannedProduct?.product {
-                    TabView {
-                        AsyncImage(url: URL(string: product.image_url ?? "https://fakeimg.pl/650x400/ffffff/000000?text=No+Food+Image")) { pic in
-                            pic
-                                .resizable()
-                                .scaledToFit()
+            ZStack {
+                
+                gradient
+                    .edgesIgnoringSafeArea(.all)
+
+                VStack {
+                    if viewModelScanner.isLoading {
+                        
+                        ProgressView("Lädt Produkt...")
+                        
+                    } else if let product = viewModelScanner.scannedProduct?.product {
+                        TabView {
+                            AsyncImage(url: URL(string: product.image_url ?? "https://fakeimg.pl/650x400/ffffff/000000?text=No+Food+Image")) { pic in
+                                pic
+                                    .resizable()
+                                    .scaledToFit()
+                                
+                            } placeholder: {
+                                ProgressView()
+                                    .progressViewStyle(.circular)
+                            }
                             
-                        } placeholder: {
-                            ProgressView()
-                                .progressViewStyle(.circular)
+                            AsyncImage(url: URL(string: product.image_nutrition_url ?? "https://fakeimg.pl/650x400/ffffff/000000?text=No+Food+Image")) { pic in
+                                pic
+                                    .resizable()
+                                    .scaledToFit()
+                                
+                            } placeholder: {
+                                ProgressView()
+                                    .progressViewStyle(.circular)
+                            }
                         }
-                        
-                        AsyncImage(url: URL(string: product.image_nutrition_url ?? "https://fakeimg.pl/650x400/ffffff/000000?text=No+Food+Image")) { pic in
-                            pic
-                                .resizable()
-                                .scaledToFit()
-                            
-                        } placeholder: {
-                            ProgressView()
-                                .progressViewStyle(.circular)
-                        }
-                    }
-                    .tabViewStyle(.page(indexDisplayMode: .automatic))
-                    .padding()
-                    .frame(maxHeight: 200)
-                    
-                    ScrollView {
-                     VStack {
-                        
-                        
-                        HStack {
-                            Text("Product Name:")
-                            Spacer()
-                            Text("\(product.product_name_de ?? "Unkown")")
-                        }
+                        .tabViewStyle(.page(indexDisplayMode: .automatic))
                         .padding()
+                        .frame(maxHeight: 200)
                         
-                        HStack {
-                            Text("Ingredients:")
-                            Spacer()
-                            Text("\(product.ingredients_text_de ?? "")")
-                        }
-                        .padding()
-                        
-                        HStack {
-                            Text("Allergens:")
-                            Spacer()
-                            Text("\(product.allergens_imported ?? "")")
-                        }
-                        .padding()
-                        
-                        HStack {
-                            Text("NutriScore Grade:")
-                            Spacer()
-                            Text("\(product.nutriscore_grade?.uppercased() ?? "")")
-                        }
-                        .padding()
-                        
-                        HStack {
-                            Text("Eco Score:")
-                            Spacer()
-                            Text("\(product.ecoscore_score ?? 0)")
-                        }
-                        .padding()
-                        
-                        Text("Nährwerte pro 100g:")
-                            .font(.title)
+                        ScrollView {
+                         VStack {
+                             
+                             HStack {
+                                 Text("Nutri-Score:")
+                                     .textCase(.uppercase)
+                                 Spacer()
+                                 HStack {
+                                     Text("\(SmileyEnum.smileyFromNutriScore(product.nutriscore_grade?.uppercased() ?? "No NutriScore").rawValue)")
+                                     Text("(\(product.nutriscore_grade?.uppercased() ?? "No NutriScore"))")
+                                 }
+                             }
+                             .padding()
+                             .bold()
+                             
+                             HStack {
+                                 Text("Eco Score:")
+                                     .textCase(.uppercase)
+                                 Spacer()
+                                 Text("\(product.ecoscore_score ?? 0)")
+                             }
+                             .padding()
+                             .bold()
+                             .padding(.bottom, 70)
+                             
+                             HStack {
+                                 Text("Vegan:")
+                                     .textCase(.uppercase)
+                                 Spacer()
+                                 Text("\(product.ingredients[0]?.vegan ?? "No Vegan")")
+                             }
+                             .padding()
+                             
+                             HStack {
+                                 Text("Vegetarian:")
+                                     .textCase(.uppercase)
+                                 Spacer()
+                                 Text("\(product.ingredients[0]?.vegetarian ?? "No Vegan")")
+                             }
+                             .padding()
+                             
+                             
+                            HStack {
+                                Text("Product Name:")
+                                Spacer()
+                                Text("\(product.product_name_de ?? "Unkown")")
+                            }
                             .padding()
-                        HStack {
-                            Text("Kalorien:")
+                            
+                            HStack {
+                                Text("Ingredients:")
+                                Spacer()
+                                Text("\(product.ingredients_text_de ?? "")")
+                            }
+                            .padding()
+                            
+                            HStack {
+                                Text("Allergens:")
+                                Spacer()
+                                Text("\(product.allergens_imported ?? "")")
+                            }
+                            .padding()
+                            
+                            Text("Nährwerte pro 100g:")
+                                .font(.title)
+                                .padding()
+                            HStack {
+                                Text("Kalorien:")
+                                Spacer()
+                                Text("\(product.nutriments?.energy_kcal_100g?.formatted() ?? 0.formatted()) kcal")
+                            }
+                            .padding()
+                            
+                            HStack {
+                                Text("Fett:")
+                                Spacer()
+                                Text("\(product.nutriments?.fat_100g?.formatted() ?? 0.formatted()) g")
+                            }
+                            .padding()
+                            
+                            HStack {
+                                Text("Gesättigte Fette:")
+                                Spacer()
+                                Text("\(product.nutriments?.saturated_fat_100g?.formatted() ?? 0.0.formatted()) g")
+                            }
+                            .padding()
+                            
+                            HStack {
+                                Text("Kohlenhydrate:")
+                                Spacer()
+                                Text("\(product.nutriments?.carbohydrates_100g?.formatted() ?? 0.0.formatted()) g")
+                            }
+                            .padding()
+                            
+                            HStack {
+                                Text("Zucker:")
+                                Spacer()
+                                Text("\(product.nutriments?.sugars_100g?.formatted() ?? 0.0.formatted()) g")
+                            }
+                            .padding()
+                            
+                            HStack {
+                                Text("Ballaststoffe:")
+                                Spacer()
+                                Text("\(product.nutriments?.fiber_100g?.formatted() ?? 0.0.formatted()) g")
+                            }
+                            .padding()
+                             
+                             HStack {
+                                Text("Protein:")
+                                Spacer()
+                                Text("\(product.nutriments?.proteins_100g?.formatted() ?? 0.formatted()) g")
+                            }
+                            .padding()
+                            
+                            HStack {
+                                Text("Salz:")
+                                Spacer()
+                                Text("\(product.nutriments?.salt_100g?.formatted() ?? 0.0.formatted()) g")
+                            }
+                            .padding()
+                            
                             Spacer()
-                            Text("\(product.nutriments?.energy_kcal_100g?.formatted() ?? 0.formatted()) kcal")
+                            
                         }
-                        .padding()
-                        
-                        HStack {
-                            Text("Fett:")
-                            Spacer()
-                            Text("\(product.nutriments?.fat_100g?.formatted() ?? 0.formatted()) g")
-                        }
-                        .padding()
-                        
-                        HStack {
-                            Text("Gesättigte Fette:")
-                            Spacer()
-                            Text("\(product.nutriments?.saturated_fat_100g?.formatted() ?? 0.0.formatted()) g")
-                        }
-                        .padding()
-                        
-                        HStack {
-                            Text("Kohlenhydrate:")
-                            Spacer()
-                            Text("\(product.nutriments?.carbohydrates_100g?.formatted() ?? 0.0.formatted()) g")
-                        }
-                        .padding()
-                        
-                        HStack {
-                            Text("Zucker:")
-                            Spacer()
-                            Text("\(product.nutriments?.sugars_100g?.formatted() ?? 0.0.formatted()) g")
-                        }
-                        .padding()
-                        
-                        HStack {
-                            Text("Ballaststoffe:")
-                            Spacer()
-                            Text("\(product.nutriments?.fiber_100g?.formatted() ?? 0.0.formatted()) g")
-                        }
-                        .padding()
-                         
-                         HStack {
-                            Text("Protein:")
-                            Spacer()
-                            Text("\(product.nutriments?.proteins_100g?.formatted() ?? 0.formatted()) g")
-                        }
-                        .padding()
-                        
-                        HStack {
-                            Text("Salz:")
-                            Spacer()
-                            Text("\(product.nutriments?.salt_100g?.formatted() ?? 0.0.formatted()) g")
-                        }
-                        .padding()
-                        
-                        Spacer()
-                        
                     }
-                }
-                } else {
-                    Text("(Keine Produkte gescannt)")
+                    } else {
+                        Text("(Keine Produkte gescannt)")
+                    }
                 }
             }
-        }
+            }
     }
 }
 
