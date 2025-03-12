@@ -11,9 +11,6 @@ import CodeScanner
 struct ScannerView: View {
   
     @ObservedObject var viewModelScanner: ScannerViewModel
-    let gradient = LinearGradient(colors: [.brown.opacity(0.5), .green.opacity(0.5)], startPoint: .top, endPoint: .bottom)
-    //    let gradient = LinearGradient(colors: [.brown.opacity(0.5), .orange.opacity(0.5)], startPoint: .top, endPoint: .bottom)
-//    let gradient = LinearGradient(colors: [.brown.opacity(0.5), .red.opacity(0.5)], startPoint: .top, endPoint: .bottom)
 
     var body: some View {
         VStack {
@@ -55,9 +52,9 @@ struct ScannerView: View {
 //        }
         .sheet(isPresented: $viewModelScanner.showSheet) {
             ZStack {
-                
-                gradient
-                    .edgesIgnoringSafeArea(.all)
+
+                viewModelScanner.nutriScoreGradient( viewModelScanner.scannedProduct?.product?.nutriscore_grade ?? "No Score")
+                    .ignoresSafeArea(edges: .bottom)
 
                 VStack {
                     if viewModelScanner.isLoading {
@@ -110,6 +107,11 @@ struct ScannerView: View {
                                      .textCase(.uppercase)
                                  Spacer()
                                  Text("\(product.ecoscore_score ?? 0)")
+                                     .padding()
+                                 ProgressView(value: Double(product.ecoscore_score ?? 0) / 100)
+                                     .tint(viewModelScanner.getColor(value: Double(product.ecoscore_score ?? 0)))
+                                     .padding()
+                               
                              }
                              .padding()
                              .bold()
@@ -117,37 +119,42 @@ struct ScannerView: View {
                              
                              HStack {
                                  Text("Vegan:")
-                                     .textCase(.uppercase)
                                  Spacer()
-                                 Text("\(product.ingredients[0]?.vegan ?? "No Vegan")")
+                                 if product.ingredients[0]?.vegan == "yes" {
+                                     
+                                     Image("blatt")
+                                         .resizable()
+                                         .scaledToFit()
+                                         .frame(width: 35, height: 35)
+                                 }
+                                 Text("\(product.ingredients[0]?.vegan ?? "")")
                              }
                              .padding()
                              
                              HStack {
-                                 Text("Vegetarian:")
-                                     .textCase(.uppercase)
+                                 Text("Vegetarisch:")
                                  Spacer()
-                                 Text("\(product.ingredients[0]?.vegetarian ?? "No Vegan")")
+                                 Text("\(product.ingredients[0]?.vegetarian ?? "")")
                              }
                              .padding()
                              
                              
                             HStack {
-                                Text("Product Name:")
+                                Text("Name vom Produkt:")
                                 Spacer()
-                                Text("\(product.product_name_de ?? "Unkown")")
+                                Text("\(product.product_name_de ?? "(Unbekannt)")")
                             }
                             .padding()
                             
                             HStack {
-                                Text("Ingredients:")
+                                Text("Zutaten:")
                                 Spacer()
                                 Text("\(product.ingredients_text_de ?? "")")
                             }
                             .padding()
                             
                             HStack {
-                                Text("Allergens:")
+                                Text("Allergenen:")
                                 Spacer()
                                 Text("\(product.allergens_imported ?? "")")
                             }
@@ -217,7 +224,7 @@ struct ScannerView: View {
                         }
                     }
                     } else {
-                        Text("(Keine Produkte gescannt)")
+                        Text("(Kein Produkt gefunden)")
                     }
                 }
             }

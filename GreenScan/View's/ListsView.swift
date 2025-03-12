@@ -33,7 +33,7 @@ struct ListsView: View {
 //                    .scaledToFit()
 //                    .frame(width: 100, height: 120)
                 
-                AsyncImage(url: URL(string: product?.image_url ?? "No URL")) { pic in
+                AsyncImage(url: URL(string: product?.image_url ?? "https://fakeimg.pl/650x400/ffffff/000000?text=No+Food+Image")) { pic in
                                 pic
                                     .resizable()
                                     .scaledToFit()
@@ -45,9 +45,10 @@ struct ListsView: View {
                             }
                 
                 VStack {
-                    Text("\(product?.product_name_de ?? "No Name")" )
-                    Text("\(product?.nutriscore_grade ?? "No Score")" )
+                    Text("Produkt Name:\(product?.product_name_de ?? "")" )
+                    Text("Nutri-Score: \(product?.nutriscore_grade ?? "")" )
                 }
+                .textCase(.uppercase)
                 
                 
                 
