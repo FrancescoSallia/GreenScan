@@ -16,8 +16,6 @@ class ScannerViewModel: ObservableObject {
     @Published var scannedBarcode: String = ""
     @Published var isLoading: Bool = false
     @Published var isScanning: Bool = false
-//    @Published var scannedList: [Any] = []
-//    var scannedList: [Result<ScanResult, ScanError>] = []
     var scannedList: [ScannedProduct] = []
     
     

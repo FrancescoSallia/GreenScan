@@ -46,7 +46,7 @@ struct ListsView: View {
                 
                 VStack {
                     Text("\(product?.product_name_de ?? "No Name")" )
-                    Text("\(product?.carbon_footprint ?? "No Footprint")" )
+                    Text("\(product?.nutriscore_grade ?? "No Score")" )
                 }
                 
                 
