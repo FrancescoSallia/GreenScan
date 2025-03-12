@@ -9,7 +9,7 @@ import Foundation
 
 struct Product: Identifiable, Codable {
         
-   var id: String
+    var id: String
     let allergens_imported: String?
     let product_name_de: String?
     let image_url: String?
@@ -20,5 +20,6 @@ struct Product: Identifiable, Codable {
     let ecoscore_score: Int?
     let ingredients_text_de: String?
     let image_nutrition_url: String?
+    let nutriments: Nutriments?
 }
 

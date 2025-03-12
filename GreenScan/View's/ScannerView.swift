@@ -15,7 +15,7 @@ struct ScannerView: View {
     var body: some View {
         VStack {
             ZStack {
-                CodeScannerView(codeTypes: [.qr, .ean8, .ean13, .aztec], scanMode: .continuous) { result in
+                CodeScannerView(codeTypes: [.qr, .ean8, .ean13, .aztec], scanMode: .once) { result in
                     switch result {
                     case .success(let code):
                         viewModelScanner.isScanning.toggle()
@@ -27,6 +27,7 @@ struct ScannerView: View {
                             await viewModelScanner.getScannedProducts()
                         }
                         viewModelScanner.showSheet = true
+                        
                     case .failure(let error):
                         print("Fehler: \(error)")
                     }
@@ -44,11 +45,11 @@ struct ScannerView: View {
                 Text("Scan")
             }
         }
-        .onAppear {
-            Task {
-                 await viewModelScanner.getScannedProducts()
-           }
-        }
+//        .onAppear {
+//            Task {
+//                 await viewModelScanner.getScannedProducts()
+//           }
+//        }
         .sheet(isPresented: $viewModelScanner.showSheet) {
             VStack {
                 if viewModelScanner.isLoading {
@@ -75,6 +76,16 @@ struct ScannerView: View {
                         Text("NutriScore Grade: \(product.nutriscore_grade ?? "")")
                         Text("Eco Score: \(product.ecoscore_score ?? 0)")
                         
+                        Text("Werte pro 100g(Nutriments):")
+                        Text("Energy kcal 100g: \(product.nutriments?.energy_kcal_100g ?? 00000)")
+                        Text("Fett: \(product.nutriments?.fat_100g ?? 0.0)")
+                        Text("gesättigte Fette: \(product.nutriments?.saturated_fat_100g ?? 0.0)")
+                        Text("Kohlenhydrate: \(product.nutriments?.carbohydrates_100g ?? 0.0)")
+                        Text("Zucker: \(product.nutriments?.sugars_100g ?? 0.0)")
+                        Text("fiber: \(product.nutriments?.fiber_100g ?? 0.0)")
+                        Text("Protein: \(product.nutriments?.proteins_100g ?? 0.0)")
+                        Text("Salz: \(product.nutriments?.salt_100g ?? 0.0)")
+                    
                         AsyncImage(url: URL(string: product.image_nutrition_url ?? "No URL Found")) { pic in
                             pic
                                 .resizable()

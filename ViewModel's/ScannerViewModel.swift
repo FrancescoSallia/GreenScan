@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import CodeScanner
 
 @MainActor
 class ScannerViewModel: ObservableObject {
@@ -15,7 +16,9 @@ class ScannerViewModel: ObservableObject {
     @Published var scannedBarcode: String = ""
     @Published var isLoading: Bool = false
     @Published var isScanning: Bool = false
-
+//    @Published var scannedList: [Any] = []
+//    var scannedList: [Result<ScanResult, ScanError>] = []
+    var scannedList: [ScannedProduct] = []
     
     
     private let client = HttpClient()
@@ -28,6 +31,7 @@ class ScannerViewModel: ObservableObject {
         do {
             let product = try await client.getScannedProduct(barcode: scannedBarcode)
             scannedProduct = product
+            self.scannedList.append(product)
         } catch {
             print("Fehler: \(error)")
             scannedProduct = nil
