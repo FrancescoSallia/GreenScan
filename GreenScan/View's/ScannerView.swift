@@ -53,7 +53,7 @@ struct ScannerView: View {
         .sheet(isPresented: $viewModelScanner.showSheet) {
             ZStack {
 
-                viewModelScanner.nutriScoreGradient( viewModelScanner.scannedProduct?.product?.nutriscore_grade ?? "No Score")
+                viewModelScanner.nutriScoreGradient( viewModelScanner.scannedProduct?.product?.nutriscore_grade ?? "?")
                     .ignoresSafeArea(edges: .bottom)
 
                 VStack {
@@ -95,8 +95,8 @@ struct ScannerView: View {
                                      .textCase(.uppercase)
                                  Spacer()
                                  HStack {
-                                     Text("\(SmileyEnum.smileyFromNutriScore(product.nutriscore_grade?.uppercased() ?? "No NutriScore").rawValue)")
-                                     Text("(\(product.nutriscore_grade?.uppercased() ?? "No NutriScore"))")
+                                     Text("\(SmileyEnum.smileyFromNutriScore(product.nutriscore_grade?.uppercased() ?? "?").rawValue)")
+                                     Text("(\(product.nutriscore_grade?.uppercased() ?? "?"))")
                                  }
                              }
                              .padding()
@@ -126,15 +126,22 @@ struct ScannerView: View {
                                          .resizable()
                                          .scaledToFit()
                                          .frame(width: 35, height: 35)
+                                 } else if product.ingredients[0]?.vegan == "no" {
+                                     
+                                     Image("NoVegan")
+                                         .resizable()
+                                         .scaledToFit()
+                                         .frame(width: 35, height: 35)
                                  }
-                                 Text("\(product.ingredients[0]?.vegan ?? "")")
+                                 
+                                 Text("\(product.ingredients[0]?.vegan ?? "?")")
                              }
                              .padding()
                              
                              HStack {
                                  Text("Vegetarisch:")
                                  Spacer()
-                                 Text("\(product.ingredients[0]?.vegetarian ?? "")")
+                                 Text("\(product.ingredients[0]?.vegetarian ?? "?")")
                              }
                              .padding()
                              
@@ -142,21 +149,28 @@ struct ScannerView: View {
                             HStack {
                                 Text("Name vom Produkt:")
                                 Spacer()
-                                Text("\(product.product_name_de ?? "(Unbekannt)")")
+                                Text("\(product.product_name_de ?? "?")")
+                            }
+                            .padding()
+                             
+                             HStack {
+                                Text("Marke:")
+                                Spacer()
+                                 Text("\(product.brands ?? "?")")
                             }
                             .padding()
                             
                             HStack {
                                 Text("Zutaten:")
                                 Spacer()
-                                Text("\(product.ingredients_text_de ?? "")")
+                                Text("\(product.ingredients_text_de ?? "?")")
                             }
                             .padding()
                             
                             HStack {
                                 Text("Allergenen:")
                                 Spacer()
-                                Text("\(product.allergens_imported ?? "")")
+                                Text("\(product.allergens_imported ?? "?")")
                             }
                             .padding()
                             

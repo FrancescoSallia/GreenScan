@@ -10,12 +10,11 @@ import CodeScanner
 
 struct ListsView: View {
     
-//    var scannedProduct: Result<ScanResult, ScanError>
     @ObservedObject var viewModelScanner: ScannerViewModel
 
     var body: some View {
         
-        HStack(alignment: .top){
+        HStack(alignment: .top) {
             Picker("Sortieren nach", selection: .constant("Verlauf")) {
                 Text("Verlauf").tag("Verlauf")
                 Text("Favoriten").tag("Absteigend")
@@ -25,44 +24,84 @@ struct ListsView: View {
             
         }
         
-        List(viewModelScanner.scannedList.indices, id: \.hashValue) { item in
-            let product = viewModelScanner.scannedList[item].product
-            HStack {
-//                Image(systemName: "square.and.arrow.down.fill")
+//        ForEach(0 ..< 5) { item in
+//            HStack {
+//                Image("blatt")
 //                    .resizable()
 //                    .scaledToFit()
-//                    .frame(width: 100, height: 120)
+//                    .frame(maxWidth: 120, maxHeight: 170)
+//                    .padding(.horizontal)
+//                
+//                VStack {
+//                    HStack {
+//                        Text("Produkt-Name")
+//                    }
+//                    .padding()
+//                    
+//                    HStack {
+//                        Text("Nutri-Score: ")
+//                        Text("A")
+//                            .textCase(.uppercase)
+//                            .font(.callout)
+//                            .foregroundStyle(.green)
+//                    }
+//                    .padding()
+//                }
+//            }
+//        }
+
+          
+            List(viewModelScanner.scannedList.indices, id: \.hashValue) { item in
                 
-                AsyncImage(url: URL(string: product?.image_url ?? "https://fakeimg.pl/650x400/ffffff/000000?text=No+Food+Image")) { pic in
-                                pic
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 150, height: 180)
+                ZStack {
+                    Image("blatt")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center) // Zentrierung
+                        .opacity(0.3)
+                        .ignoresSafeArea()
+
                 
-                            } placeholder: {
-                                ProgressView()
-                                    .progressViewStyle(.circular)
+                let product = viewModelScanner.scannedList[item].product
+                
+                    HStack {
+                        AsyncImage(url: URL(string: product?.image_url ?? "https://fakeimg.pl/650x400/ffffff/000000?text=No+Food+Image")) { pic in
+                            
+                            pic
+                             .resizable()
+                             .scaledToFit()
+//                             .frame(maxWidth: 120, maxHeight: 150)
+                             .padding(.horizontal)
+                        
+                        } placeholder: {
+                            ProgressView()
+                                .progressViewStyle(.circular)
+                        }
+                        
+                        VStack {
+                            HStack {
+    //                            Text("Produkt Name:")
+                                Text("\(product?.product_name_de ?? "")")
                             }
-                
-                VStack {
-                    Text("Produkt Name:\(product?.product_name_de ?? "")" )
-                    Text("Nutri-Score: \(product?.nutriscore_grade ?? "")" )
-                }
-                .textCase(.uppercase)
-                
-                
-                
-            
-                
+                            .padding(.bottom)
+                            HStack {
+                                Text("Nutri-Score: ")
+                                Text("\(product?.nutriscore_grade ?? "")")
+                                    .textCase(.uppercase)
+                                    .font(.callout)
+                                    .foregroundStyle(viewModelScanner.nutriScoreGradient(product?.nutriscore_grade ?? ""))
+                            }
+                            .padding(.top)
+                        }
+                    }
+
             }
+             .frame(maxHeight: 200)
+
+         
         }
         
-        
-        
-        
-        
-        
-        
+   
         
     }
 }
