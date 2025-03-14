@@ -44,6 +44,11 @@
 			path = "ViewModel's";
 			sourceTree = "<group>";
 		};
+		7448D2292D847D3A00AC4E7D /* extensions */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = extensions;
+			sourceTree = "<group>";
+		};
 		7496C6C62D80B27A005FBB3E /* Firebase */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = Firebase;
@@ -68,6 +73,7 @@
 		74211DC72D77668B0049BAE6 = {
 			isa = PBXGroup;
 			children = (
+				7448D2292D847D3A00AC4E7D /* extensions */,
 				7496C6C62D80B27A005FBB3E /* Firebase */,
 				74211DF92D776BC30049BAE6 /* ViewModel's */,
 				74211DF52D776A8D0049BAE6 /* Enum's */,
@@ -108,6 +114,7 @@
 				74211DF22D77692A0049BAE6 /* Service */,
 				74211DF52D776A8D0049BAE6 /* Enum's */,
 				74211DF92D776BC30049BAE6 /* ViewModel's */,
+				7448D2292D847D3A00AC4E7D /* extensions */,
 				7496C6C62D80B27A005FBB3E /* Firebase */,
 			);
 			name = GreenScan;
@@ -312,7 +319,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Using Camera for scanning Products";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
 				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
@@ -347,7 +354,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Using Camera for scanning Products";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
 				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";

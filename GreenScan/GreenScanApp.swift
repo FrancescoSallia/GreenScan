@@ -19,14 +19,21 @@ struct GreenScanApp: App {
     
     var body: some Scene {
         WindowGroup {
-            TabView {
-                Tab("Scanner", systemImage: "barcode.viewfinder") {
-                    ScannerView(viewModelScanner: viewModelScanner)
+            
+            ZStack {
+                Color.costumBackground
+                    .ignoresSafeArea()
+                TabView {
+                    Tab("Scanner", systemImage: "barcode.viewfinder") {
+                        ScannerView(viewModelScanner: viewModelScanner)
+                    }
+                    Tab("Verlauf", systemImage: "clock.arrow.trianglehead.counterclockwise.rotate.90") {
+                        ListsView(viewModelScanner: viewModelScanner)
+                    }
                 }
-                Tab("Verlauf", systemImage: "clock.arrow.trianglehead.counterclockwise.rotate.90") {
-                    ListsView(viewModelScanner: viewModelScanner)
-                }
+                .tint(.costumSelectedTab)
             }
         }
     }
+        
 }

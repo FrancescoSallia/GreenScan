@@ -57,10 +57,6 @@ class ScannerViewModel: ObservableObject {
         }
     
     
-    
-    
-    
-    
 //API-SECTION
     func getScannedProducts() async {
         guard !scannedBarcode.isEmpty else { return }
