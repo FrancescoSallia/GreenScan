@@ -13,7 +13,7 @@ struct ListsView: View {
     
     @ObservedObject var viewModelScanner: ScannerViewModel
     @State private var selectedTab: String = "Verlauf"
-    @Query(sort: \ScannedProduct.id, order: .reverse) private var product: [ScannedProduct]
+    @Query private var product: [ScannedProduct]
     
     var body: some View {
         
@@ -49,7 +49,7 @@ struct ListsView: View {
                 .padding()
 //                List(viewModelScanner.scannedList.indices, id: \.hashValue) { item in
 
-                    List(product, id: \.id) { item in
+                List(product.reversed(), id: \.id) { item in
 
 //                        let product = viewModelScanner.scannedList[item].product
     

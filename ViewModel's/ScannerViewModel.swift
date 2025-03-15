@@ -17,7 +17,8 @@ class ScannerViewModel: ObservableObject {
     @Published var scannedBarcode: String = ""
     @Published var isLoading: Bool = false
     @Published var isScanning: Bool = false
-    var scannedList: [ScannedProduct] = []
+    @Published var scannedList: [ScannedProduct] = []
+    @Published var refreshUI: Bool = false
 
     
     
@@ -26,11 +27,11 @@ class ScannerViewModel: ObservableObject {
     
     func nutriScoreGradient(_ score: String) -> LinearGradient {
         
-        let green = LinearGradient(colors: [.brown.opacity(0.5), .green.opacity(0.5)], startPoint: .top, endPoint: .bottom)
-        let yellow = LinearGradient(colors: [.brown.opacity(0.5), .yellow.opacity(0.5)], startPoint: .top, endPoint: .bottom)
-        let orange = LinearGradient(colors: [.brown.opacity(0.5), .orange.opacity(0.5)], startPoint: .top, endPoint: .bottom)
-        let red = LinearGradient(colors: [.brown.opacity(0.5), .red.opacity(0.5)], startPoint: .top, endPoint: .bottom)
-        let defaultGray = LinearGradient(colors: [.white.opacity(0.5), .gray.opacity(0.5)], startPoint: .top, endPoint: .bottom)
+        let green = LinearGradient(colors: [.green.opacity(0.5)], startPoint: .top, endPoint: .bottom)
+        let yellow = LinearGradient(colors: [.yellow.opacity(0.5)], startPoint: .top, endPoint: .bottom)
+        let orange = LinearGradient(colors: [.orange.opacity(0.5)], startPoint: .top, endPoint: .bottom)
+        let red = LinearGradient(colors: [.red.opacity(0.5)], startPoint: .top, endPoint: .bottom)
+        let defaultGray = LinearGradient(colors: [.gray.opacity(0.5)], startPoint: .top, endPoint: .bottom)
 
            switch score.uppercased() {
            case "A", "B": return green
@@ -66,6 +67,7 @@ class ScannerViewModel: ObservableObject {
             let product = try await client.getScannedProduct(barcode: scannedBarcode)
             scannedProduct = product
             self.scannedList.append(product)
+            refreshUI.toggle()
         } catch {
             print("Fehler: \(error)")
             scannedProduct = nil
