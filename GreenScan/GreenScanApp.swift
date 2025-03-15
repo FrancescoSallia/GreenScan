@@ -7,6 +7,7 @@
 
 import SwiftUI
 import FirebaseCore
+import SwiftData
 
 @main
 struct GreenScanApp: App {
@@ -26,9 +27,12 @@ struct GreenScanApp: App {
                 TabView {
                     Tab("Scanner", systemImage: "barcode.viewfinder") {
                         ScannerView(viewModelScanner: viewModelScanner)
+                            .modelContainer(for: [ScannedProduct.self])
                     }
                     Tab("Verlauf", systemImage: "clock.arrow.trianglehead.counterclockwise.rotate.90") {
                         ListsView(viewModelScanner: viewModelScanner)
+                            .modelContainer(for: [ScannedProduct.self])
+
                     }
                 }
                 .tint(.costumSelectedTab)

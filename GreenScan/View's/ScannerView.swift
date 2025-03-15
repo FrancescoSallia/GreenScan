@@ -12,7 +12,8 @@ import CodeScanner
 struct ScannerView: View {
   
     @ObservedObject var viewModelScanner: ScannerViewModel
-
+    @Environment(\.modelContext) var context
+    
     var body: some View {
         
         ZStack {
@@ -21,7 +22,7 @@ struct ScannerView: View {
             
             VStack {
                 ZStack {
-                    CodeScannerView(codeTypes: [.qr, .ean8, .ean13, .aztec], scanMode: .continuous, scanInterval: 3.0) { result in
+                    CodeScannerView(codeTypes: [.qr, .ean8, .ean13, .aztec], scanMode: .once) { result in
                         switch result {
                         case .success(let code):
                             viewModelScanner.isScanning.toggle()
@@ -31,6 +32,9 @@ struct ScannerView: View {
                             viewModelScanner.isLoading = true   // Ladezustand anzeigen
                             Task {
                                 await viewModelScanner.getScannedProducts()
+                                if let scannedProduct = viewModelScanner.scannedProduct {
+                                            context.insert(scannedProduct)  // Richtiges Speichern
+                                        }
                             }
                             viewModelScanner.showSheet = true
                         
@@ -126,28 +130,50 @@ struct ScannerView: View {
                                  HStack {
                                      Text("Vegan:")
                                      Spacer()
-                                     if product.ingredients[0]?.vegan == "yes" {
-                                         
-                                         Image("blatt")
-                                             .resizable()
-                                             .scaledToFit()
-                                             .frame(width: 35, height: 35)
-                                     } else if product.ingredients[0]?.vegan == "no" {
-                                         
-                                         Image("NoVegan")
-                                             .resizable()
-                                             .scaledToFit()
-                                             .frame(width: 35, height: 35)
-                                     }
                                      
-                                     Text("\(product.ingredients[0]?.vegan ?? "?")")
+                                     if let index = product.ingredients?.firstIndex(where: { $0.vegan == "yes" || $0.vegan == "no" || $0.vegan == nil }) {
+                                         
+                                         let filteredProductVegan = product.ingredients?[index].vegan ?? "?"
+                                         
+                                         if filteredProductVegan == "yes" {
+                                             Image("blatt")
+                                                 .resizable()
+                                                 .scaledToFit()
+                                                 .frame(width: 35, height: 35)
+                                         } else if filteredProductVegan == "no" {
+                                             
+                                             Image("NoVegan")
+                                                 .resizable()
+                                                 .scaledToFit()
+                                                 .frame(width: 35, height: 35)
+                                         }
+                                         
+                                         Text("\(filteredProductVegan)")
+                                     }
+                                    
+                                     
+//                                     if product.ingredients[0]?.vegan == "yes" {
+//                                         
+//                                         Image("blatt")
+//                                             .resizable()
+//                                             .scaledToFit()
+//                                             .frame(width: 35, height: 35)
+//                                     } else if product.ingredients[0]?.vegan == "no" {
+//                                         
+//                                         Image("NoVegan")
+//                                             .resizable()
+//                                             .scaledToFit()
+//                                             .frame(width: 35, height: 35)
+//                                     }
+                                     
+//                                     Text("\(product.ingredients[0]?.vegan ?? "?")")
                                  }
                                  .padding()
                                  
                                  HStack {
                                      Text("Vegetarisch:")
                                      Spacer()
-                                     Text("\(product.ingredients[0]?.vegetarian ?? "?")")
+                                     Text("\(product.ingredients?[0].vegetarian ?? "?")")
                                  }
                                  .padding()
                                  

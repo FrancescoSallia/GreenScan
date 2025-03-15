@@ -7,11 +7,14 @@
 
 import SwiftUI
 import CodeScanner
+import SwiftData
 
 struct ListsView: View {
     
     @ObservedObject var viewModelScanner: ScannerViewModel
     @State private var selectedTab: String = "Verlauf"
+    @Query(sort: \ScannedProduct.id, order: .reverse) private var product: [ScannedProduct]
+    
     var body: some View {
         
         ZStack {
@@ -44,17 +47,18 @@ struct ListsView: View {
                         }
                 }
                 .padding()
-                                  
-                    List(viewModelScanner.scannedList.indices, id: \.hashValue) { item in
+//                List(viewModelScanner.scannedList.indices, id: \.hashValue) { item in
 
-                        let product = viewModelScanner.scannedList[item].product
+                    List(product, id: \.id) { item in
+
+//                        let product = viewModelScanner.scannedList[item].product
     
                         ZStack {
                             Color.costumBackground
                                 .ignoresSafeArea()
                             VStack {
                                 HStack {
-                                    AsyncImage(url: URL(string: product?.image_url ?? "https://fakeimg.pl/650x400/ffffff/000000?text=No+Food+Image")) { pic in
+                                    AsyncImage(url: URL(string: item.product?.image_url ?? "https://fakeimg.pl/650x400/ffffff/000000?text=No+Food+Image")) { pic in
                                         
                                         pic
                                             .resizable()
@@ -71,15 +75,15 @@ struct ListsView: View {
                                     VStack {
                                         HStack {
                                             //                            Text("Produkt Name:")
-                                            Text("\(product?.product_name_de ?? "")")
+                                            Text("\(item.product?.product_name_de ?? "")")
                                         }
                                         .padding(.bottom)
                                         HStack {
                                             Text("Nutri-Score: ")
-                                            Text("\(product?.nutriscore_grade ?? "")")
+                                            Text("\(item.product?.nutriscore_grade ?? "")")
                                                 .textCase(.uppercase)
                                                 .font(.callout)
-                                                .foregroundStyle(viewModelScanner.nutriScoreGradient(product?.nutriscore_grade ?? ""))
+                                                .foregroundStyle(viewModelScanner.nutriScoreGradient(item.product?.nutriscore_grade ?? ""))
                                         }
                                         .padding(.top)
                                         

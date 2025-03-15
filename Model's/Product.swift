@@ -18,7 +18,7 @@ struct Product: Identifiable, Codable {
     var nutriments: Nutriments? = Nutriments() // Standardwert für Nutriments
     var nutriscore_grade: String? = "Keine Bewertung"
     var ecoscore_score: Int? = 0
-    var ingredients: [Ingredient?] = []
+    var ingredients: [Ingredient]? = []
     var brands: String? = "(Keine Marke verfügbar)"
    
 }
