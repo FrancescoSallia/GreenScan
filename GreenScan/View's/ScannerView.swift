@@ -34,7 +34,7 @@ struct ScannerView: View {
                                 await viewModelScanner.getScannedProducts()
                                 if let scannedProduct = viewModelScanner.scannedProduct {
                                             context.insert(scannedProduct)  // Richtiges Speichern
-                                    try context.save()
+                                    try? context.save()
                                         }
                             }
                             viewModelScanner.showSheet = true

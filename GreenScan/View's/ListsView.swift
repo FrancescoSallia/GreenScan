@@ -12,6 +12,7 @@ import SwiftData
 struct ListsView: View {
     
     @ObservedObject var viewModelScanner: ScannerViewModel
+    @Environment(\.modelContext) var context
     @State private var selectedTab: String = "Verlauf"
     @Query private var product: [ScannedProduct]
     
@@ -47,11 +48,8 @@ struct ListsView: View {
                         }
                 }
                 .padding()
-//                List(viewModelScanner.scannedList.indices, id: \.hashValue) { item in
 
                 List(product.reversed(), id: \.id) { item in
-
-//                        let product = viewModelScanner.scannedList[item].product
     
                         ZStack {
                             Color.costumBackground
@@ -96,6 +94,16 @@ struct ListsView: View {
                         }
                         .listRowSeparator(.hidden)
                         .listRowBackground(Color.costumBackground) // Hintergrund für jede Zeile setzen
+                    
+                        .swipeActions(content: {
+                            
+                            Button(role: .destructive) {
+                                context.delete(item)
+                                try? context.save()
+                            } label: {
+                                Image(systemName: "trash")
+                            }
+                        })
                 }
                 .scrollContentBackground(.hidden)
                 .background(Color.costumBackground) // Setzt die neue Hintergrundfarbe
