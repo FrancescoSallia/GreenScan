@@ -18,7 +18,9 @@ class ScannerViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var isScanning: Bool = false
     @Published var scannedList: [ScannedProduct] = []
-    @Published var refreshUI: Bool = false
+    @Published var navigateToDetailView: Bool = false
+    @Published var productDetail: ScannedProduct? = nil
+
 
     
     
@@ -61,18 +63,21 @@ class ScannerViewModel: ObservableObject {
 //API-SECTION
     func getScannedProducts() async {
         guard !scannedBarcode.isEmpty else { return }
+//        guard isScanning else { return }
         
         isLoading = true
         do {
             let product = try await client.getScannedProduct(barcode: scannedBarcode)
             scannedProduct = product
+            productDetail = product
             self.scannedList.append(product)
-            refreshUI.toggle()
         } catch {
             print("Fehler: \(error)")
             scannedProduct = nil
         }
         isLoading = false
+        isScanning.toggle()
+        
     }
     
     
