@@ -35,9 +35,11 @@ struct GreenScanApp: App {
 
                     }
                 }
+                .onAppear {
+                    UITabBar.appearance().backgroundColor = .themeCostumBackground // Wechselt die hintergrundfarbe von der tabView
+                }
                 .tint(.costumSelectedTab)
             }
         }
     }
-        
 }
