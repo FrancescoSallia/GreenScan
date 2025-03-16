@@ -151,12 +151,14 @@ struct ListsView: View {
 //                            }
                         }
                         .background(Color.costumBackground)
-                        .frame(maxHeight: 600)
+                        .frame(maxHeight: 550)
                         .listStyle(.plain)
                         .scrollContentBackground(.hidden)
                     }
                 }
             }
+            .navigationTitle("Verlauf")
+            .toolbarTitleDisplayMode(.inlineLarge)
         }
         .alert("Wirklich alle Einträge löschen?", isPresented: $isDeleted, actions: {
             Button("Nein") {
@@ -181,7 +183,6 @@ struct ListsView: View {
             editableProducts = products
         }
     }
-
 }
 //#Preview {
 //    ListsView(viewModelScanner: ScannerViewModel())

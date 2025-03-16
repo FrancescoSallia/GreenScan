@@ -35,4 +35,5 @@ extension UIColor {
         static let themeBlue = UIColor(hex: "#2196F3")
         static let themeRed = UIColor(hex: "#F44336")
         static let themeCostumBackground = UIColor(hex: "#FFFBF1")
+        static let themeSelectedTabColor = UIColor(hex: "#825929")
 }
