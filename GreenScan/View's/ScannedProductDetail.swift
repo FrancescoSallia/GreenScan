@@ -13,9 +13,7 @@ struct ScannedProductDetail: View {
     var product: Product?
     
     var body: some View {
-                    
-//        NavigationView {
-            ZStack {
+        ZStack {
                 Color.costumBackground
                     .ignoresSafeArea()
                 VStack {
@@ -65,32 +63,15 @@ struct ScannedProductDetail: View {
                                 }
                                 .padding()
                                 .bold()
-                                
-//                                HStack {
-//                                    Text("Eco Score:")
-//                                        .textCase(.uppercase)
-//                                    Spacer()
-//                                    Text("\(product?.ecoscore_score ?? 0)")
-//                                        .padding()
-//                                    ProgressView(value: Double(product?.ecoscore_score ?? 0) / 100)
-//                                        .tint(viewModelScanner.getColor(value: Double(product?.ecoscore_score ?? 0)))
-//                                        .padding()
-//                                    
-//                                }
-//                                .padding()
-//                                .bold()
-//                                .padding(.bottom, 40)
-                                
+                                                                
                                 HStack {
                                     Gauge(value: Double(product?.ecoscore_score ?? 0), in: 0...100) {
                                         Text("Eco Score:")
                                             .textCase(.uppercase)
                                             .bold()
                                     } currentValueLabel: {
-//                                                Image(systemName: "face.smiling")
                                         Text("\(product?.ecoscore_score ?? 0) %")
                                             .foregroundStyle(.black)
-//                                                    .frame(width: 80, height: 70)
                                             }
                                             .gaugeStyle(.linearCapacity)
                                             .tint(viewModelScanner.getColor(value: Double(product?.ecoscore_score ?? 0)))
@@ -226,6 +207,11 @@ struct ScannedProductDetail: View {
                         .frame(maxHeight: 655)
                     } else {
                         Text("(Kein Produkt gefunden)")
+                        
+                        
+                        
+                        
+                        
                     }
                 }
                 .background(Color.costumBackground)

@@ -94,6 +94,7 @@ class ScannerViewModel: ObservableObject {
             scannedProduct = product
             productDetail = product
             self.scannedList.append(product)
+            
         } catch {
             print("Fehler: \(error)")
             scannedProduct = nil
