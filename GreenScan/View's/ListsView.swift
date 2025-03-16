@@ -16,6 +16,7 @@ struct ListsView: View {
     @State private var selectedTab: String = "Verlauf"
     @Query private var products: [ScannedProduct]
     @State private var editableProducts: [ScannedProduct] = []
+    @State var isDeleted: Bool = false
     
     var body: some View {
         
@@ -127,17 +128,27 @@ struct ListsView: View {
                             .listRowBackground(Color.clear)
                         }
                         .toolbar {
+                            
                             Button {
-                                for item in editableProducts {
-                                    context.delete(item)
-                                   try? context.save()
+                                guard !editableProducts.isEmpty else {
+                                    return
                                 }
-                                Task {
-                                    editableProducts = products
-                                }
+                                isDeleted.toggle()
+                                
                             } label: {
                                 Text("Alles Löschen")
                             }
+//                            Button {
+//                                for item in editableProducts {
+//                                    context.delete(item)
+//                                   try? context.save()
+//                                }
+//                                
+//                                editableProducts = products
+//                                
+//                            } label: {
+//                                Text("Alles Löschen")
+//                            }
                         }
                         .background(Color.costumBackground)
                         .frame(maxHeight: 600)
@@ -147,6 +158,25 @@ struct ListsView: View {
                 }
             }
         }
+        .alert("Wirklich alle Einträge löschen?", isPresented: $isDeleted, actions: {
+            Button("Nein") {
+                
+            }
+            Button {
+                withAnimation {
+                    for item in editableProducts {
+                        context.delete(item)
+                       try? context.save()
+                    }
+                    
+                    editableProducts = products
+                }
+                
+            } label: {
+                Text("Ja")
+                    .foregroundStyle(.red)
+            }
+        })
         .onAppear {
             editableProducts = products
         }
