@@ -57,7 +57,7 @@ struct ScannerView: View {
                     .navigationDestination(isPresented: $viewModelScanner.navigateToDetailView) {
                         if let detailProduct = viewModelScanner.productDetail {
                             
-                            ScannedProductSheet(viewModelScanner: viewModelScanner, product: detailProduct.product)
+                            ScannedProductDetail(viewModelScanner: viewModelScanner, product: detailProduct.product)
                         }
                     }
                 }

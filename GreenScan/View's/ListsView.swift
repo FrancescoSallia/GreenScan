@@ -15,14 +15,7 @@ struct ListsView: View {
     @Environment(\.modelContext) var context
     @State private var selectedTab: String = "Verlauf"
     @Query private var products: [ScannedProduct]
-    let dummyData: [Dummy] = [
-        Dummy(name: "Max", lastname: "Mustermann"),
-        Dummy(name: "Erika", lastname: "Musterfrau"),
-        Dummy(name: "John", lastname: "Doe"),
-        Dummy(name: "Jane", lastname: "Doe"),
-        Dummy(name: "Alex", lastname: "Smith"),
-        Dummy(name: "Maria", lastname: "Gonzalez")
-    ]
+    @State private var editableProducts: [ScannedProduct] = []
     
     var body: some View {
         
@@ -69,11 +62,11 @@ struct ListsView: View {
                             .ignoresSafeArea()
                         
                         List {
-                            ForEach(products.reversed(), id: \.id) { item in
+                            ForEach(editableProducts.reversed(), id: \.id) { item in
                                 ZStack {
                                     Color.costumBackground
                                     NavigationLink {
-                                        ScannedProductSheet(viewModelScanner: viewModelScanner, product: item.product)
+                                        ScannedProductDetail(viewModelScanner: viewModelScanner, product: item.product)
                                     } label: {
                                         
                                         HStack {
@@ -121,7 +114,28 @@ struct ListsView: View {
                                     }
                                 }
                             }
+                            .onDelete { offset in
+                                for index in offset {
+                                    let deleteItem = editableProducts[index]
+                                    context.delete(deleteItem)
+                                    try? context.save()
+                                }
+                            }
+                            
                             .listRowBackground(Color.clear)
+                        }
+                        .toolbar {
+                            Button {
+                                for item in editableProducts {
+                                    context.delete(item)
+                                   try? context.save()
+                                }
+                                Task {
+                                    editableProducts = products
+                                }
+                            } label: {
+                                Text("Alles Löschen")
+                            }
                         }
                         .background(Color.costumBackground)
                         .frame(maxHeight: 630)
@@ -131,9 +145,12 @@ struct ListsView: View {
                 }
             }
         }
+        .onAppear {
+            editableProducts = products
+        }
     }
 
 }
-#Preview {
-    ListsView(viewModelScanner: ScannerViewModel())
-}
+//#Preview {
+//    ListsView(viewModelScanner: ScannerViewModel())
+//}
