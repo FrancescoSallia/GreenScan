@@ -116,10 +116,12 @@ struct ListsView: View {
                             }
                             .onDelete { offset in
                                 for index in offset {
-                                    let deleteItem = editableProducts[index]
+                                    let originalIndex = editableProducts.count - 1 - index
+                                    let deleteItem = editableProducts[originalIndex]
                                     context.delete(deleteItem)
                                     try? context.save()
                                 }
+                                editableProducts = products
                             }
                             
                             .listRowBackground(Color.clear)
@@ -138,7 +140,7 @@ struct ListsView: View {
                             }
                         }
                         .background(Color.costumBackground)
-                        .frame(maxHeight: 630)
+                        .frame(maxHeight: 600)
                         .listStyle(.plain)
                         .scrollContentBackground(.hidden)
                     }

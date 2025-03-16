@@ -14,7 +14,7 @@ struct ScannedProductDetail: View {
     
     var body: some View {
                     
-        NavigationView {
+//        NavigationView {
             ZStack {
                 Color.costumBackground
                     .ignoresSafeArea()
@@ -24,32 +24,34 @@ struct ScannedProductDetail: View {
                         ProgressView("Lädt Produkt...")
                         
                     } else if product != nil {
-                        TabView {
-                            AsyncImage(url: URL(string: product?.image_url ?? "https://fakeimg.pl/650x400/ffffff/000000?text=No+Food+Image")) { pic in
-                                pic
-                                    .resizable()
-                                    .scaledToFit()
-                                
-                            } placeholder: {
-                                ProgressView()
-                                    .progressViewStyle(.circular)
-                            }
-                            
-                            AsyncImage(url: URL(string: product?.image_nutrition_url ?? "https://fakeimg.pl/650x400/ffffff/000000?text=No+Food+Image")) { pic in
-                                pic
-                                    .resizable()
-                                    .scaledToFit()
-                                
-                            } placeholder: {
-                                ProgressView()
-                                    .progressViewStyle(.circular)
-                            }
-                        }
-                        .tabViewStyle(.page(indexDisplayMode: .automatic))
-                        .padding()
-                        .frame(maxHeight: 200)
                         
                         ScrollView {
+                            TabView {
+                                AsyncImage(url: URL(string: product?.image_url ?? "https://fakeimg.pl/650x400/ffffff/000000?text=No+Food+Image")) { pic in
+                                    pic
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: 300, height: 300)
+                                    
+                                } placeholder: {
+                                    ProgressView()
+                                        .progressViewStyle(.circular)
+                                }
+                                
+                                AsyncImage(url: URL(string: product?.image_nutrition_url ?? "https://fakeimg.pl/650x400/ffffff/000000?text=No+Food+Image")) { pic in
+                                    pic
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: 300, height: 300)
+                                    
+                                } placeholder: {
+                                    ProgressView()
+                                        .progressViewStyle(.circular)
+                                }
+                            }
+                            .tabViewStyle(.page(indexDisplayMode: .always))
+                            .frame(height: 300)
+                            .padding()
                             VStack {
                                 
                                 HStack {
@@ -64,20 +66,37 @@ struct ScannedProductDetail: View {
                                 .padding()
                                 .bold()
                                 
+//                                HStack {
+//                                    Text("Eco Score:")
+//                                        .textCase(.uppercase)
+//                                    Spacer()
+//                                    Text("\(product?.ecoscore_score ?? 0)")
+//                                        .padding()
+//                                    ProgressView(value: Double(product?.ecoscore_score ?? 0) / 100)
+//                                        .tint(viewModelScanner.getColor(value: Double(product?.ecoscore_score ?? 0)))
+//                                        .padding()
+//                                    
+//                                }
+//                                .padding()
+//                                .bold()
+//                                .padding(.bottom, 40)
+                                
                                 HStack {
-                                    Text("Eco Score:")
-                                        .textCase(.uppercase)
-                                    Spacer()
-                                    Text("\(product?.ecoscore_score ?? 0)")
-                                        .padding()
-                                    ProgressView(value: Double(product?.ecoscore_score ?? 0) / 100)
-                                        .tint(viewModelScanner.getColor(value: Double(product?.ecoscore_score ?? 0)))
-                                        .padding()
-                                    
+                                    Gauge(value: Double(product?.ecoscore_score ?? 0), in: 0...100) {
+                                        Text("Eco Score:")
+                                            .textCase(.uppercase)
+                                            .bold()
+                                    } currentValueLabel: {
+//                                                Image(systemName: "face.smiling")
+                                        Text("\(product?.ecoscore_score ?? 0) %")
+                                            .foregroundStyle(.black)
+//                                                    .frame(width: 80, height: 70)
+                                            }
+                                            .gaugeStyle(.linearCapacity)
+                                            .tint(viewModelScanner.getColor(value: Double(product?.ecoscore_score ?? 0)))
+                                            .frame(maxWidth: .infinity, maxHeight: 70)
+                                            .padding()
                                 }
-                                .padding()
-                                .bold()
-                                .padding(.bottom, 70)
                                 
                                 HStack {
                                     Text("Vegan:")
@@ -204,16 +223,13 @@ struct ScannedProductDetail: View {
                                 
                             }
                         }
-                        .frame(maxHeight: 455)
+                        .frame(maxHeight: 655)
                     } else {
                         Text("(Kein Produkt gefunden)")
                     }
                 }
-                
                 .background(Color.costumBackground)
                 .foregroundStyle(.black)
-            }
-
         }
     }
 }

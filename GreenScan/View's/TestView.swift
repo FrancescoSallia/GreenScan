@@ -20,51 +20,47 @@ struct TestView: View {
     
     
     var body: some View {
-            NavigationStack {
-                ZStack {
-                    Color.costumBackground
-                        .ignoresSafeArea()
-//                    ScrollView {
-                    List {
-                        ForEach(dummyData, id: \.id) { item in
-                            ZStack {
-                                Color.costumBackground
-                                NavigationLink {
-                                    Text("Details")
-                                } label: {
-                                    HStack {
-                                        Image("blatt")
-                                            .resizable()
-                                            .scaledToFit()
-                                            .clipShape(.rect(cornerRadius: 15))
-                                        VStack {
-                                            Text("\(item.name)")
-                                            Text("\(item.lastname)")
-                                            Image(systemName: "heart")
-                                                .resizable()
-                                                .scaledToFit()
-                                                .foregroundStyle(.black)
-                                                .frame(maxWidth: 30)
-                                                .padding(.top)
-                                        }
-                                        .foregroundStyle(.black)
-                                    }
-                                }
-                            }
-                            .listRowBackground(Color.costumBackground) // Hintergrund für jede Zelle
-                        }
-                        .onDelete { dummyData.remove(atOffsets: $0) }
-                        .onMove { dummyData.move(fromOffsets: $0, toOffset: $1) }
+        
+        VStack {
+            Gauge(value: 20.0, in: 0...100) {
+                Text("20%")
+            }
+            .gaugeStyle(.accessoryCircular)
+            
+            
+            Gauge(value: 30.0, in: 0...100) {
+                Text("30%")
+            } currentValueLabel: {
+                Image(systemName: "face.smiling")
+            } minimumValueLabel: {
+                Text("A")
+            } maximumValueLabel: {
+                Text("A")
+            }
+            .gaugeStyle(.accessoryCircular)
+            
+            Gauge(value: 20.0, in: 0...100) {
+                Text("hello")
+            } currentValueLabel: {
+                Text("Current")
+            }
+            .gaugeStyle(.accessoryCircular)
+            
+            
+            Gauge(value: 68.0, in: 0...100) {
+                Text("68%")
+            } currentValueLabel: {
+                        Image(systemName: "face.smiling")
+                            .frame(width: 80, height: 70)
                     }
-                    .listStyle(.plain)
-                    .scrollContentBackground(.hidden)
-//                    }
-//                    .frame(maxHeight: .infinity)
-                }
-                .toolbar {
-                    EditButton()
-                }
+                    .gaugeStyle(.accessoryCircular)
+                    .tint(LinearGradient(colors: [.red, .yellow, .green], startPoint: .topLeading, endPoint: .topTrailing))
+                    .frame(width: 100, height: 100)
+
+
+            
         }
+
     }
 }
 
