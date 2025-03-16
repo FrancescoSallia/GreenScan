@@ -13,6 +13,7 @@ struct Product: Identifiable, Codable {
     var product_name_de: String? = "Kein Name verfügbar"
     var ingredients_text_de: String? = "Keine Zutaten verfügbar"
     var allergens_imported: String? = "Keine Allergene verfügbar"
+    var allergens_from_ingredients: String? = "Keine Allergene verfügbar"
     var image_url: String? = "https://via.placeholder.com/150" // Beispiel-Bild-URL als Default
     var image_nutrition_url: String? = "https://via.placeholder.com/150"
     var nutriments: Nutriments? = Nutriments() // Standardwert für Nutriments

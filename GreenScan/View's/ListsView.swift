@@ -24,30 +24,20 @@ struct ListsView: View {
             ZStack {
                 Color.costumBackground
                     .ignoresSafeArea()
+                
+                
                 HStack {
                     Text("Verlauf")
-                        .padding(.vertical, 8)
-                        .frame(maxWidth: 200)
-                        .background(selectedTab == "Verlauf" ? Color.costumSelectedTab : Color.clear)
-                        .foregroundStyle(selectedTab == "Verlauf" ? Color.costumBackground : Color.costumSelectedTab)
-                        .clipShape(.buttonBorder)
-                        .onTapGesture {
-                            withAnimation(.easeInOut(duration: 0.3)) {
-                                selectedTab = "Verlauf"
-                            }
-                        }
+                        .font(.largeTitle)
+                        .foregroundStyle(Color.black)
                     
-                    Text("Favoriten")
-                        .padding(.vertical, 8)
-                        .frame(maxWidth: 200)
-                        .background(selectedTab == "Favoriten" ? Color.costumSelectedTab : Color.clear)
-                        .foregroundStyle(selectedTab == "Favoriten" ? Color.costumBackground : Color.costumSelectedTab)
-                        .clipShape(.buttonBorder)
-                        .onTapGesture {
-                            withAnimation(.easeInOut(duration: 0.3)) {
-                                selectedTab = "Favoriten"
-                            }
-                        }
+                    Image(systemName: "clock.arrow.trianglehead.counterclockwise.rotate.90")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 30, height: 30)
+                        .foregroundStyle(.black)
+                    
+                    Spacer()
                 }
                 .padding()
             }
@@ -87,33 +77,31 @@ struct ListsView: View {
                                             
                                             VStack {
                                                 HStack {
-                                                    //                            Text("Produkt Name:")
                                                     Text("\(item.product?.product_name_de ?? "")")
                                                 }
                                                 .padding(.bottom)
                                                 HStack {
                                                     Text("Nutri-Score: ")
-                                                    Text("\(item.product?.nutriscore_grade ?? "")")
+                                                    Text("\(viewModelScanner.isUnknownScore(value: item.product?.nutriscore_grade?.uppercased() ?? ""))")
                                                         .textCase(.uppercase)
                                                         .font(.callout)
-                                                    Button {
-                                                        //placeholder
-                                                    } label: {
-                                                        Image(systemName: "heart")
-                                                            .resizable()
-                                                            .scaledToFit()
-                                                            .foregroundStyle(.black)
-                                                            .frame(maxWidth: 30)
-                                                            .padding(.top)
-                                                    }
                                                 }
                                             }
                                             .frame(maxWidth: 200)
                                             .foregroundStyle(.black)
+                                            
                                         }
                                         .padding()
+                                        Divider()
+                                        VStack {
+                                            Text("\(viewModelScanner.isUnknownScore(value: item.product?.nutriscore_grade?.uppercased() ?? ""))")
+                                                .textCase(.uppercase)
+                                                .font(.largeTitle)
+                                                .foregroundStyle(viewModelScanner.getNutriScoreColor(value: item.product?.nutriscore_grade?.uppercased() ?? ""))
+                                        }
                                     }
                                 }
+                                Divider()
                             }
                             .onDelete { offset in
                                 for index in offset {
@@ -126,6 +114,8 @@ struct ListsView: View {
                             }
                             
                             .listRowBackground(Color.clear)
+                            .listRowSeparator(.hidden, edges: .all)
+                            
                         }
                         .toolbar {
                             
@@ -138,17 +128,6 @@ struct ListsView: View {
                             } label: {
                                 Text("Alles Löschen")
                             }
-//                            Button {
-//                                for item in editableProducts {
-//                                    context.delete(item)
-//                                   try? context.save()
-//                                }
-//                                
-//                                editableProducts = products
-//                                
-//                            } label: {
-//                                Text("Alles Löschen")
-//                            }
                         }
                         .background(Color.costumBackground)
                         .frame(maxHeight: 550)
@@ -157,8 +136,6 @@ struct ListsView: View {
                     }
                 }
             }
-            .navigationTitle("Verlauf")
-            .toolbarTitleDisplayMode(.inlineLarge)
         }
         .alert("Wirklich alle Einträge löschen?", isPresented: $isDeleted, actions: {
             Button("Nein") {

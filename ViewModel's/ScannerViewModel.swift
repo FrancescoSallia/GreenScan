@@ -59,6 +59,29 @@ class ScannerViewModel: ObservableObject {
             }
         }
     
+    func getNutriScoreColor(value: String) -> Color {
+        
+            switch value {
+            case "a".uppercased():
+                return .green
+            case "b".uppercased():
+                return .green.opacity(0.8)
+            case "c".uppercased():
+                return .yellow
+            case "d".uppercased():
+                return .orange
+            case "e".uppercased():
+                return .red
+            default:
+                return .gray
+            }
+        }
+    
+     func isUnknownScore(value: String) -> String {
+       guard value != "unknown".uppercased() else { return "??" }
+        return value
+        }
+    
     
 //API-SECTION
     func getScannedProducts() async {

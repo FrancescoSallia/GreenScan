@@ -156,7 +156,7 @@ struct ScannedProductDetail: View {
                                 HStack {
                                     Text("Allergenen:")
                                     Spacer()
-                                    Text("\(product?.allergens_imported ?? "?")")
+                                    Text("\(product?.allergens_imported ?? "\(product?.allergens_from_ingredients ?? "?")")")
                                 }
                                 .padding()
                                 
