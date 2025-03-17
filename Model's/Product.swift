@@ -11,8 +11,6 @@ struct Product: Identifiable, Codable {
         
     var id: String? = UUID().uuidString
     var code: String?
-    var status: String?
-    var status_verbose: String?
     var product_name_de: String? = "Kein Name verfügbar"
     var ingredients_text_de: String? = "Keine Zutaten verfügbar"
     var allergens_imported: String? = "Keine Allergene verfügbar"

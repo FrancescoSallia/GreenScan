@@ -46,7 +46,6 @@ struct ScannerView: View {
 
                                     } else {
                                         print("Kein gültiges Produkt gefunden, wird nicht in der Datenbank gespeichert.")
-                                        print("Status: \(viewModelScanner.scannedProduct?.product?.status ?? "unbekannt")")
                                     }
                                 }
                                 viewModelScanner.navigateToDetailView.toggle()

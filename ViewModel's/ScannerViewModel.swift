@@ -78,7 +78,7 @@ class ScannerViewModel: ObservableObject {
         }
     
      func isUnknownScore(value: String) -> String {
-       guard value != "unknown".uppercased() else { return "??" }
+       guard value != "unknown".uppercased() else { return "?" }
         return value
         }
     
