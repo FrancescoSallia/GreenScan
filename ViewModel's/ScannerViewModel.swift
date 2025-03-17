@@ -86,15 +86,13 @@ class ScannerViewModel: ObservableObject {
 //API-SECTION
     func getScannedProducts() async {
         guard !scannedBarcode.isEmpty else { return }
-//        guard isScanning else { return }
         
         isLoading = true
         do {
             let product = try await client.getScannedProduct(barcode: scannedBarcode)
             scannedProduct = product
             productDetail = product
-            self.scannedList.append(product)
-            
+            self.scannedList.append(product)            
         } catch {
             print("Fehler: \(error)")
             scannedProduct = nil

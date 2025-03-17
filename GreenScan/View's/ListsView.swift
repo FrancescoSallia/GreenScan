@@ -85,6 +85,17 @@ struct ListsView: View {
                                                     Text("\(viewModelScanner.isUnknownScore(value: item.product?.nutriscore_grade?.uppercased() ?? ""))")
                                                         .textCase(.uppercase)
                                                         .font(.callout)
+                                                    
+                                                    
+                                                    
+                                                    
+                                                    
+                                                    Text("\(item.product?.status ?? "kein Status")")
+                                                        .textCase(.uppercase)
+                                                        .font(.callout)
+                                                    
+                                                    
+                                                    
                                                 }
                                             }
                                             .frame(maxWidth: 200)

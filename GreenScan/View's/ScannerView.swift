@@ -25,26 +25,28 @@ struct ScannerView: View {
                 VStack {
                     ZStack {
                         CodeScannerView(codeTypes: [.qr, .ean8, .ean13, .aztec], scanMode: .once) { result in
+                            
                             switch result {
                             case .success(let code):
                                 viewModelScanner.isScanning.toggle()
                                 viewModelScanner.scannedBarcode = code.string  // Neuen Barcode speichern
                                 print("ScannedProdukt from ScannedBarcode: \(viewModelScanner.scannedBarcode)")
-
                                 print(viewModelScanner.scannedProduct?.product?.code ?? "Produkt nicht verfügbar")
-                                viewModelScanner.scannedProduct = nil  // Altes Produkt zurücksetzen
+//                                viewModelScanner.scannedProduct = nil  // Altes Produkt zurücksetzen
                                 viewModelScanner.isLoading = true   // Ladezustand anzeigen
                                 Task {
                                     await viewModelScanner.getScannedProducts()
                                     
-                                    if let scannedProduct = viewModelScanner.scannedProduct {
+                                    if let scannedProduct = viewModelScanner.scannedProduct, scannedProduct.status == 1 {
                                         print("ScannedProdukt: \(scannedProduct.product?.code ?? "Kein Code")")
+                                        print("ScannedProdukt: \(scannedProduct.status ?? 0000)")
                                             
                                             context.insert(scannedProduct)  // Richtiges Speichern
                                             try? context.save()
 
                                     } else {
                                         print("Kein gültiges Produkt gefunden, wird nicht in der Datenbank gespeichert.")
+                                        print("Status: \(viewModelScanner.scannedProduct?.product?.status ?? "unbekannt")")
                                     }
                                 }
                                 viewModelScanner.navigateToDetailView.toggle()

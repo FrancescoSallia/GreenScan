@@ -17,7 +17,8 @@ class HttpClient {
         do {
             let (data, _) = try await URLSession.shared.data(from: url)
             let scannedProduct = try JSONDecoder().decode(ScannedProduct.self, from: data)
-            print(scannedProduct)
+            print("scannedProduct from HTTP-Client: \(scannedProduct)")
+            print("scannedProduct from HTTP-Client Status: \(scannedProduct.product?.status ?? "No Status HTTP-Client")")
             return scannedProduct
         } catch {
             print("Fehler beim Dekodieren: \(error)")

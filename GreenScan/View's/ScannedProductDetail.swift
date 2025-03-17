@@ -206,7 +206,11 @@ struct ScannedProductDetail: View {
                         }
                         .frame(maxHeight: 655)
                     } else {
-                        Text("(Kein Produkt gefunden)")
+                        
+                        Text(viewModelScanner.scannedProduct?.status_verbose ?? "Keine Information")
+                            .padding()
+                        
+                        // versuch das als ein alert dir anzeigen zu lassen!!
                         
                         
                         
