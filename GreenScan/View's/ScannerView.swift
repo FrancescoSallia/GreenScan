@@ -13,6 +13,7 @@ struct ScannerView: View {
   
     @ObservedObject var viewModelScanner: ScannerViewModel
     @Environment(\.modelContext) var context
+    @State var showErrorAlert: Bool = false
     
     
     var body: some View {
@@ -63,12 +64,36 @@ struct ScannerView: View {
                     
                     .navigationDestination(isPresented: $viewModelScanner.navigateToDetailView) {
                         if let detailProduct = viewModelScanner.productDetail {
-                            
-                            ScannedProductDetail(viewModelScanner: viewModelScanner, product: detailProduct.product)
+                            if detailProduct.status == 1 {
+                                
+                                ScannedProductDetail(viewModelScanner: viewModelScanner, product: detailProduct.product)
+                            } else {
+                                ZStack {
+                                    Color.costumBackground
+                                        .ignoresSafeArea()
+                                    EmptyView()
+                                        .toolbarVisibility(.hidden, for: .automatic)
+                                }
+                                .navigationBarBackButtonHidden(true)
+                                .toolbarVisibility(.hidden, for: .tabBar)
+                                .onAppear {
+                                    showErrorAlert.toggle()
+                                }
+                            }
                         }
                     }
                 }
             }
+            .navigationTitle("Scanner")
+            .toolbarVisibility(.hidden, for: .automatic)
+
+        }
+        .alert(isPresented: $showErrorAlert) {
+            Alert(title: Text("Fehler beim Scannen vom Produkt"), message: Text("\(viewModelScanner.productDetail?.status_verbose ?? "Kein Produkt gefunden")"), dismissButton: .default(Text("Verstanden")) {
+                viewModelScanner.navigateToDetailView = false  // Zurück zur vorherigen Ansicht
+                viewModelScanner.productDetail = nil
+            })
+                
         }
     }
 }

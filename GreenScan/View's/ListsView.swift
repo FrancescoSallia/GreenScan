@@ -163,5 +163,6 @@ struct ListsView: View {
     }
 }
 //#Preview {
+//
 //    ListsView(viewModelScanner: ScannerViewModel())
 //}

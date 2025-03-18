@@ -225,5 +225,31 @@ struct ScannedProductDetail: View {
 }
 
 #Preview {
-    ScannedProductDetail(viewModelScanner: ScannerViewModel())
+    let dummyProduct = Product(
+        id: "123456",
+        code: "4001234567890",
+        product_name_de: "Bio Apfelsaft",
+        ingredients_text_de: "100% Apfelsaft aus biologischem Anbau",
+        allergens_imported: "Keine",
+        allergens_from_ingredients: "Keine",
+        image_url: "https://fakeimg.pl/300x300/32CD32/FFFFFF?text=Apfelsaft",
+        image_nutrition_url: "https://fakeimg.pl/300x300/FFD700/000000?text=Nährwerte",
+        nutriments: Nutriments(
+            energy_kcal_100g: 46,
+            fat_100g: 0.1,
+            saturated_fat_100g: 0.02,
+            carbohydrates_100g: 11.0,
+            sugars_100g: 9.0,
+            fiber_100g: 1.2,
+            proteins_100g: 0.2,
+            salt_100g: 0.01
+        ),
+        nutriscore_grade: "A",
+        ecoscore_score: 85,
+        ingredients: [
+            Ingredient(vegan: "yes", vegetarian: "yes"),
+        ],
+        brands: "BioFarm"
+    )
+    ScannedProductDetail(viewModelScanner: ScannerViewModel(), product: dummyProduct)
 }
