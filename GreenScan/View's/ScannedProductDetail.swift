@@ -140,43 +140,6 @@ struct ScannedProductDetail: View {
                                 }
                                 .padding()
                                 
-                                Text("Verpackung")
-                                    .font(.title)
-                                    .padding(.horizontal)
-                                    .frame(maxWidth: .infinity)
-                                    .background(Color.costumSelectedTab.opacity(0.3))
-                                    .clipShape(.buttonBorder)
-                                    .padding(.horizontal)
-                                    .padding(.top, 40)
-                                
-                                VStack {
-
-                                    if let packagings = product?.packagings {
-                                        ForEach(packagings, id: \.id) { package in
-                                            HStack {
-                                                VStack(alignment: .leading, spacing: 26) {
-                                                    Text("Material:")
-                                                    Text("Umweltfreundliches Material:")
-                                                    Text("Recycling:")
-                                                    Text("Verpackungsform:")
-                                                }
-                                                Spacer()
-                                                VStack(alignment: .trailing, spacing: 26) {
-                                                    Text(package.material ?? "")
-                                                    Text("\(package.environmental_score_material_score ?? 0) %")
-                                                    Text(package.recycling ?? "")
-                                                    Text(package.shape ?? "")
-                                                }
-                                            }
-                                            Divider()
-                                                .padding(.bottom)
-                                        }
-                                    } else {
-                                        Text("No data available")
-                                    }
-                                }
-                                .padding()
-                                
                                 Text("Nährwerte pro 100g:")
                                     .font(.title)
                                     .padding(.horizontal)

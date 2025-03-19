@@ -9,14 +9,7 @@ import SwiftUI
 
 struct TestView: View {
     
-    @State var dummyData: [Dummy] = [
-        Dummy(name: "Max", lastname: "Mustermann"),
-        Dummy(name: "Erika", lastname: "Musterfrau"),
-        Dummy(name: "John", lastname: "Doe"),
-        Dummy(name: "Jane", lastname: "Doe"),
-        Dummy(name: "Alex", lastname: "Smith"),
-        Dummy(name: "Maria", lastname: "Gonzalez")
-    ]
+
     
     
     var body: some View {

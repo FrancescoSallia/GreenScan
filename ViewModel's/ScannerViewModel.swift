@@ -13,10 +13,10 @@ import SwiftUICore
 class ScannerViewModel: ObservableObject {
     
     @Published var scannedProduct: ScannedProduct? = nil
-    @Published var showSheet: Bool = false
     @Published var scannedBarcode: String = ""
     @Published var isLoading: Bool = false
     @Published var isScanning: Bool = false
+    @Published var isError: Bool = false
     @Published var scannedList: [ScannedProduct] = []
     @Published var navigateToDetailView: Bool = false
     @Published var productDetail: ScannedProduct? = nil
@@ -87,7 +87,7 @@ class ScannerViewModel: ObservableObject {
     func getScannedProducts() async {
         guard !scannedBarcode.isEmpty else { return }
         
-        isLoading = true
+        self.isLoading = true
         do {
             let product = try await client.getScannedProduct(barcode: scannedBarcode)
             scannedProduct = product
@@ -97,8 +97,8 @@ class ScannerViewModel: ObservableObject {
             print("Fehler: \(error)") // TODO: error handler benutzen!
             scannedProduct = nil
         }
-        isLoading = false
-        isScanning.toggle()
+        self.isLoading = false
+        self.isScanning.toggle()
         
     }
     

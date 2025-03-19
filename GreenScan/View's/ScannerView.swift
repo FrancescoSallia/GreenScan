@@ -31,36 +31,31 @@ struct ScannerView: View {
                             
                             switch result {
                             case .success(let code):
-                                viewModelScanner.isScanning.toggle()
+                                viewModelScanner.isScanning = true
                                 viewModelScanner.scannedBarcode = code.string  // Neuen Barcode speichern
                                 print("ScannedProdukt from ScannedBarcode: \(viewModelScanner.scannedBarcode)")
-                                print(viewModelScanner.scannedProduct?.product?.code ?? "Produkt nicht verfügbar")
-//                                viewModelScanner.scannedProduct = nil  // Altes Produkt zurücksetzen
                                 viewModelScanner.isLoading = true   // Ladezustand anzeigen
                                 Task {
                                     await viewModelScanner.getScannedProducts()
                                     
                                     if let scannedProduct = viewModelScanner.scannedProduct, scannedProduct.status == 1 {
-                                        print("ScannedProdukt: \(scannedProduct.product?.code ?? "Kein Code")")
-                                        print("ScannedProdukt: \(scannedProduct.status ?? 0000)")
-                                            
-                                            context.insert(scannedProduct)  // Richtiges Speichern
-                                            try? context.save()
-
+                                        
+                                        context.insert(scannedProduct)  // Richtiges Speichern
+                                        try? context.save()
+                                        
                                     } else {
                                         errorHandler.showError = true
                                         print("Kein gültiges Produkt gefunden, wird nicht in der Datenbank gespeichert.")
                                     }
                                 }
                                 viewModelScanner.navigateToDetailView.toggle()
-                            
+                                
                             case .failure(let error):
                                 print("Fehler: \(error)")
                             }
                         }
                         RoundedRectangle(cornerRadius: 12)
                             .border(viewModelScanner.isScanning ? Color.green : Color.black, width: 4)
-                            .border(viewModelScanner.showSheet ? Color.green : Color.black, width: 4)
                             .frame(width: 270, height: 150)
                             .foregroundStyle(.clear)
                     }
@@ -115,13 +110,12 @@ struct ScannerView: View {
             Alert(
                 title: Text("Error"),
                 message: Text(errorHandler.errorMessage),  // Holt die gespeicherte Fehlermeldung
-                dismissButton: .default(Text("Verstanden")) {
+                dismissButton: .default(Text("OK")) {
                     viewModelScanner.navigateToDetailView = false
                     viewModelScanner.productDetail = nil
                 }
             )
         }
-
     }
 }
 
