@@ -47,8 +47,8 @@ class ScannedProduct: Codable, Identifiable {
        }
     
     
-    enum CodingKeys: String, CodingKey {
-            case code, product, status, status_verbose
-        }
+//    enum CodingKeys: String, CodingKey {
+//            case code, product, status, status_verbose
+//        }
 }
 

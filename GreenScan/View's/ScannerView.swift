@@ -14,6 +14,8 @@ struct ScannerView: View {
     @ObservedObject var viewModelScanner: ScannerViewModel
     @Environment(\.modelContext) var context
     @State var showErrorAlert: Bool = false
+    @ObservedObject var errorHandler: ErrorHandler = .shared
+
     
     
     var body: some View {
@@ -25,7 +27,7 @@ struct ScannerView: View {
                 
                 VStack {
                     ZStack {
-                        CodeScannerView(codeTypes: [.qr, .ean8, .ean13, .aztec], scanMode: .once) { result in
+                        CodeScannerView(codeTypes: [.ean8, .ean13, .aztec], scanMode: .once) { result in
                             
                             switch result {
                             case .success(let code):
@@ -46,6 +48,7 @@ struct ScannerView: View {
                                             try? context.save()
 
                                     } else {
+                                        errorHandler.showError = true
                                         print("Kein gültiges Produkt gefunden, wird nicht in der Datenbank gespeichert.")
                                     }
                                 }
@@ -64,9 +67,22 @@ struct ScannerView: View {
                     
                     .navigationDestination(isPresented: $viewModelScanner.navigateToDetailView) {
                         if let detailProduct = viewModelScanner.productDetail {
+                            
                             if detailProduct.status == 1 {
-                                
                                 ScannedProductDetail(viewModelScanner: viewModelScanner, product: detailProduct.product)
+                            } else if detailProduct.status == 0 {
+                                ZStack {
+                                    Color.costumBackground
+                                        .ignoresSafeArea()
+                                    EmptyView()
+                                        .toolbarVisibility(.hidden, for: .automatic)
+                                }
+                                .navigationBarBackButtonHidden(true)
+                                .toolbarVisibility(.hidden, for: .tabBar)
+                                .onAppear {
+                                    errorHandler.errorMessage = "\(detailProduct.status_verbose ?? "Kein Produkt gefunden")"
+                                    errorHandler.showError = true
+                                }
                             } else {
                                 ZStack {
                                     Color.costumBackground
@@ -77,7 +93,7 @@ struct ScannerView: View {
                                 .navigationBarBackButtonHidden(true)
                                 .toolbarVisibility(.hidden, for: .tabBar)
                                 .onAppear {
-                                    showErrorAlert.toggle()
+                                    errorHandler.showError = true
                                 }
                             }
                         }
@@ -88,13 +104,24 @@ struct ScannerView: View {
             .toolbarVisibility(.hidden, for: .automatic)
 
         }
-        .alert(isPresented: $showErrorAlert) {
-            Alert(title: Text("Fehler beim Scannen vom Produkt"), message: Text("\(viewModelScanner.productDetail?.status_verbose ?? "Kein Produkt gefunden")"), dismissButton: .default(Text("Verstanden")) {
-                viewModelScanner.navigateToDetailView = false  // Zurück zur vorherigen Ansicht
-                viewModelScanner.productDetail = nil
-            })
-                
+//        .alert(isPresented: $showErrorAlert) {
+//            Alert(title: Text("Fehler beim Scannen vom Produkt"), message: Text("\(viewModelScanner.productDetail?.status_verbose ?? "Kein Produkt gefunden")"), dismissButton: .default(Text("Verstanden")) {
+//                viewModelScanner.navigateToDetailView = false  // Zurück zur vorherigen Ansicht
+//                viewModelScanner.productDetail = nil
+//            })
+//                
+//        }
+        .alert(isPresented: $errorHandler.showError) {
+            Alert(
+                title: Text("Error"),
+                message: Text(errorHandler.errorMessage),  // Holt die gespeicherte Fehlermeldung
+                dismissButton: .default(Text("Verstanden")) {
+                    viewModelScanner.navigateToDetailView = false
+                    viewModelScanner.productDetail = nil
+                }
+            )
         }
+
     }
 }
 

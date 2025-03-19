@@ -22,6 +22,6 @@ struct Product: Identifiable, Codable {
     var ecoscore_score: Int? = 0
     var ingredients: [Ingredient]? = []
     var brands: String? = "(Keine Marke verfügbar)"
-   
+    var packagings: [Package]? = []
 }
 

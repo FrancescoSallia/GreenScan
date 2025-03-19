@@ -78,7 +78,7 @@ class ScannerViewModel: ObservableObject {
         }
     
      func isUnknownScore(value: String) -> String {
-       guard value != "unknown".uppercased() else { return "?" }
+       guard value != "unknown".uppercased(), value != "not-applicable".uppercased() else { return "?" }
         return value
         }
     
@@ -94,7 +94,7 @@ class ScannerViewModel: ObservableObject {
             productDetail = product
             self.scannedList.append(product)            
         } catch {
-            print("Fehler: \(error)")
+            print("Fehler: \(error)") // TODO: error handler benutzen!
             scannedProduct = nil
         }
         isLoading = false

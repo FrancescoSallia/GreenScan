@@ -80,6 +80,13 @@ struct ScannedProductDetail: View {
                                 }
                                 
                                 HStack {
+                                    Text("Name vom Produkt:")
+                                    Spacer()
+                                    Text("\(product?.product_name_de ?? "?")")
+                                }
+                                .padding(.horizontal)
+                                
+                                HStack {
                                     Text("Vegan:")
                                     Spacer()
                                     
@@ -112,14 +119,6 @@ struct ScannedProductDetail: View {
                                 }
                                 .padding()
                                 
-                                
-                                HStack {
-                                    Text("Name vom Produkt:")
-                                    Spacer()
-                                    Text("\(product?.product_name_de ?? "?")")
-                                }
-                                .padding()
-                                
                                 HStack {
                                     Text("Marke:")
                                     Spacer()
@@ -141,9 +140,51 @@ struct ScannedProductDetail: View {
                                 }
                                 .padding()
                                 
+                                Text("Verpackung")
+                                    .font(.title)
+                                    .padding(.horizontal)
+                                    .frame(maxWidth: .infinity)
+                                    .background(Color.costumSelectedTab.opacity(0.3))
+                                    .clipShape(.buttonBorder)
+                                    .padding(.horizontal)
+                                    .padding(.top, 40)
+                                
+                                VStack {
+
+                                    if let packagings = product?.packagings {
+                                        ForEach(packagings, id: \.id) { package in
+                                            HStack {
+                                                VStack(alignment: .leading, spacing: 26) {
+                                                    Text("Material:")
+                                                    Text("Umweltfreundliches Material:")
+                                                    Text("Recycling:")
+                                                    Text("Verpackungsform:")
+                                                }
+                                                Spacer()
+                                                VStack(alignment: .trailing, spacing: 26) {
+                                                    Text(package.material ?? "")
+                                                    Text("\(package.environmental_score_material_score ?? 0) %")
+                                                    Text(package.recycling ?? "")
+                                                    Text(package.shape ?? "")
+                                                }
+                                            }
+                                            Divider()
+                                                .padding(.bottom)
+                                        }
+                                    } else {
+                                        Text("No data available")
+                                    }
+                                }
+                                .padding()
+                                
                                 Text("Nährwerte pro 100g:")
                                     .font(.title)
-                                    .padding()
+                                    .padding(.horizontal)
+                                    .frame(maxWidth: .infinity)
+                                    .background(Color.costumSelectedTab.opacity(0.3))
+                                    .clipShape(.buttonBorder)
+                                    .padding(.horizontal)
+                                    .padding(.top, 40)
                                 HStack {
                                     Text("Kalorien:")
                                     Spacer()
@@ -211,11 +252,7 @@ struct ScannedProductDetail: View {
                             .padding()
                         
                         // versuch das als ein alert dir anzeigen zu lassen!!
-                        
-                        
-                        
-                        
-                        
+                     
                     }
                 }
                 .background(Color.costumBackground)
@@ -224,32 +261,36 @@ struct ScannedProductDetail: View {
     }
 }
 
-#Preview {
-    let dummyProduct = Product(
-        id: "123456",
-        code: "4001234567890",
-        product_name_de: "Bio Apfelsaft",
-        ingredients_text_de: "100% Apfelsaft aus biologischem Anbau",
-        allergens_imported: "Keine",
-        allergens_from_ingredients: "Keine",
-        image_url: "https://fakeimg.pl/300x300/32CD32/FFFFFF?text=Apfelsaft",
-        image_nutrition_url: "https://fakeimg.pl/300x300/FFD700/000000?text=Nährwerte",
-        nutriments: Nutriments(
-            energy_kcal_100g: 46,
-            fat_100g: 0.1,
-            saturated_fat_100g: 0.02,
-            carbohydrates_100g: 11.0,
-            sugars_100g: 9.0,
-            fiber_100g: 1.2,
-            proteins_100g: 0.2,
-            salt_100g: 0.01
-        ),
-        nutriscore_grade: "A",
-        ecoscore_score: 85,
-        ingredients: [
-            Ingredient(vegan: "yes", vegetarian: "yes"),
-        ],
-        brands: "BioFarm"
-    )
-    ScannedProductDetail(viewModelScanner: ScannerViewModel(), product: dummyProduct)
-}
+//#Preview {
+//    let dummyProduct = Product(
+//        id: "123456",
+//        code: "4001234567890",
+//        product_name_de: "Bio Apfelsaft",
+//        ingredients_text_de: "100% Apfelsaft aus biologischem Anbau",
+//        allergens_imported: "Keine",
+//        allergens_from_ingredients: "Keine",
+//        image_url: "https://fakeimg.pl/300x300/32CD32/FFFFFF?text=Apfelsaft",
+//        image_nutrition_url: "https://fakeimg.pl/300x300/FFD700/000000?text=Nährwerte",
+//        nutriments: Nutriments(
+//            energy_kcal_100g: 46,
+//            fat_100g: 0.1,
+//            saturated_fat_100g: 0.02,
+//            carbohydrates_100g: 11.0,
+//            sugars_100g: 9.0,
+//            fiber_100g: 1.2,
+//            proteins_100g: 0.2,
+//            salt_100g: 0.01
+//        ),
+//        nutriscore_grade: "A",
+//        ecoscore_score: 85,
+//        ingredients: [
+//            Ingredient(vegan: "yes", vegetarian: "yes"),
+//        ],
+//        brands: "BioFarm",
+//        packagings: [
+//            Package(environmental_score_material_score: 92, material: "paperboard", recycling: "recycling", shape: "Box"),
+//            Package
+//        ]
+//    )
+//    ScannedProductDetail(viewModelScanner: ScannerViewModel(), product: dummyProduct)
+//}
