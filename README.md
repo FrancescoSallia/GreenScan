@@ -6,10 +6,8 @@ GreenScan ist eine innovative Scanner-App, mit der du den Eco-Score von Lebensmi
 
 <p>
   <!--<img src="./img/SearchView.png" width="200"> -->
- <img src="./gifs/login.gif" width="200"> <img src="./gifs/home.gif" width="200">  <img src="./gifs/searching.gif" width="200"> 
- <img src="./gifs/search.gif" width="200"> <img src="./gifs/detail.gif" width="200">  <img src="./gifs/favorite.gif" width="200"> 
- <img src="./gifs/ordering.gif" width="200">  <img src="./gifs/oldorders.gif" width="200"> 
-
+ <img src="Launch.png" width="200"> <img src="List.PNG"width="200">  <img src="Detail.PNG" width="200"> 
+ <img src="Scan.PNG" width="200">
 </p>
 
 
