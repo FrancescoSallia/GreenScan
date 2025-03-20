@@ -13,7 +13,6 @@ struct ScannerView: View {
   
     @ObservedObject var viewModelScanner: ScannerViewModel
     @Environment(\.modelContext) var context
-    @State var showErrorAlert: Bool = false
     @ObservedObject var errorHandler: ErrorHandler = .shared
 
     

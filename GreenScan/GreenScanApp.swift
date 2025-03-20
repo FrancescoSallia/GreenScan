@@ -6,15 +6,10 @@
 //
 
 import SwiftUI
-import FirebaseCore
 import SwiftData
 
 @main
 struct GreenScanApp: App {
-    
-    init() {
-        FirebaseApp.configure()
-    }
     
     @StateObject var viewModelScanner = ScannerViewModel()
     

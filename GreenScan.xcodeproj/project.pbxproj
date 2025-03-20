@@ -8,14 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		74211DE92D77677E0049BAE6 /* CodeScanner in Frameworks */ = {isa = PBXBuildFile; productRef = 74211DE82D77677E0049BAE6 /* CodeScanner */; };
-		7496C65D2D80B118005FBB3E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7496C65C2D80B118005FBB3E /* GoogleService-Info.plist */; };
-		7496C6602D80B18D005FBB3E /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 7496C65F2D80B18D005FBB3E /* FirebaseCore */; };
-		7496C6622D80B18D005FBB3E /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 7496C6612D80B18D005FBB3E /* FirebaseFirestore */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		74211DD02D77668B0049BAE6 /* GreenScan.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GreenScan.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		7496C65C2D80B118005FBB3E /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -49,11 +45,6 @@
 			path = extensions;
 			sourceTree = "<group>";
 		};
-		7496C6C62D80B27A005FBB3E /* Firebase */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = Firebase;
-			sourceTree = "<group>";
-		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,9 +52,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7496C6602D80B18D005FBB3E /* FirebaseCore in Frameworks */,
 				74211DE92D77677E0049BAE6 /* CodeScanner in Frameworks */,
-				7496C6622D80B18D005FBB3E /* FirebaseFirestore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -74,14 +63,12 @@
 			isa = PBXGroup;
 			children = (
 				7448D2292D847D3A00AC4E7D /* extensions */,
-				7496C6C62D80B27A005FBB3E /* Firebase */,
 				74211DF92D776BC30049BAE6 /* ViewModel's */,
 				74211DF52D776A8D0049BAE6 /* Enum's */,
 				74211DF22D77692A0049BAE6 /* Service */,
 				74211DE62D7766E50049BAE6 /* Model's */,
 				74211DD22D77668B0049BAE6 /* GreenScan */,
 				74211DD12D77668B0049BAE6 /* Products */,
-				7496C65C2D80B118005FBB3E /* GoogleService-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -115,13 +102,10 @@
 				74211DF52D776A8D0049BAE6 /* Enum's */,
 				74211DF92D776BC30049BAE6 /* ViewModel's */,
 				7448D2292D847D3A00AC4E7D /* extensions */,
-				7496C6C62D80B27A005FBB3E /* Firebase */,
 			);
 			name = GreenScan;
 			packageProductDependencies = (
 				74211DE82D77677E0049BAE6 /* CodeScanner */,
-				7496C65F2D80B18D005FBB3E /* FirebaseCore */,
-				7496C6612D80B18D005FBB3E /* FirebaseFirestore */,
 			);
 			productName = GreenScan;
 			productReference = 74211DD02D77668B0049BAE6 /* GreenScan.app */;
@@ -153,7 +137,6 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				74211DE72D77677E0049BAE6 /* XCRemoteSwiftPackageReference "CodeScanner" */,
-				7496C65E2D80B18D005FBB3E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 74211DD12D77668B0049BAE6 /* Products */;
@@ -170,7 +153,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7496C65D2D80B118005FBB3E /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -408,14 +390,6 @@
 				minimumVersion = 2.5.2;
 			};
 		};
-		7496C65E2D80B18D005FBB3E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 11.9.0;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -423,16 +397,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 74211DE72D77677E0049BAE6 /* XCRemoteSwiftPackageReference "CodeScanner" */;
 			productName = CodeScanner;
-		};
-		7496C65F2D80B18D005FBB3E /* FirebaseCore */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 7496C65E2D80B18D005FBB3E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseCore;
-		};
-		7496C6612D80B18D005FBB3E /* FirebaseFirestore */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 7496C65E2D80B18D005FBB3E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseFirestore;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

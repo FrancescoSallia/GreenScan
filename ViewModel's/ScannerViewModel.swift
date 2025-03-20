@@ -20,6 +20,8 @@ class ScannerViewModel: ObservableObject {
     @Published var scannedList: [ScannedProduct] = []
     @Published var navigateToDetailView: Bool = false
     @Published var productDetail: ScannedProduct? = nil
+    @Published var editableProducts: [ScannedProduct] = []
+    @Published var isDeleted: Bool = false
 
 
     

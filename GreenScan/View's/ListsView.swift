@@ -13,10 +13,8 @@ struct ListsView: View {
     
     @ObservedObject var viewModelScanner: ScannerViewModel
     @Environment(\.modelContext) var context
-    @State private var selectedTab: String = "Verlauf"
     @Query private var products: [ScannedProduct]
-    @State private var editableProducts: [ScannedProduct] = []
-    @State var isDeleted: Bool = false
+   
     
     var body: some View {
         
@@ -53,7 +51,7 @@ struct ListsView: View {
                             .ignoresSafeArea()
                         
                         List {
-                            ForEach(editableProducts.reversed(), id: \.id) { item in
+                            ForEach(viewModelScanner.editableProducts.reversed(), id: \.id) { item in
                                 ZStack {
                                     Color.costumBackground
                                     NavigationLink {
@@ -105,12 +103,12 @@ struct ListsView: View {
                             }
                             .onDelete { offset in
                                 for index in offset {
-                                    let originalIndex = editableProducts.count - 1 - index
-                                    let deleteItem = editableProducts[originalIndex]
+                                    let originalIndex = viewModelScanner.editableProducts.count - 1 - index
+                                    let deleteItem = viewModelScanner.editableProducts[originalIndex]
                                     context.delete(deleteItem)
                                     try? context.save()
                                 }
-                                editableProducts = products
+                                viewModelScanner.editableProducts = products
                             }
                             
                             .listRowBackground(Color.clear)
@@ -120,10 +118,10 @@ struct ListsView: View {
                         .toolbar {
                             
                             Button {
-                                guard !editableProducts.isEmpty else {
+                                guard !viewModelScanner.editableProducts.isEmpty else {
                                     return
                                 }
-                                isDeleted.toggle()
+                                viewModelScanner.isDeleted.toggle()
                                 
                             } label: {
                                 Text("Alles Löschen")
@@ -138,18 +136,18 @@ struct ListsView: View {
                 }
             }
         }
-        .alert("Wirklich alle Einträge löschen?", isPresented: $isDeleted, actions: {
+        .alert("Wirklich alle Einträge löschen?", isPresented: $viewModelScanner.isDeleted, actions: {
             Button("Nein") {
                 
             }
             Button {
                 withAnimation {
-                    for item in editableProducts {
+                    for item in viewModelScanner.editableProducts {
                         context.delete(item)
                        try? context.save()
                     }
                     
-                    editableProducts = products
+                    viewModelScanner.editableProducts = products
                 }
                 
             } label: {
@@ -158,7 +156,7 @@ struct ListsView: View {
             }
         })
         .onAppear {
-            editableProducts = products
+            viewModelScanner.editableProducts = products
         }
     }
 }
