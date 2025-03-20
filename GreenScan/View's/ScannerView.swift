@@ -8,14 +8,11 @@
 import SwiftUI
 import CodeScanner
 
-
 struct ScannerView: View {
   
     @ObservedObject var viewModelScanner: ScannerViewModel
     @Environment(\.modelContext) var context
     @ObservedObject var errorHandler: ErrorHandler = .shared
-
-    
     
     var body: some View {
         
@@ -98,13 +95,6 @@ struct ScannerView: View {
             .toolbarVisibility(.hidden, for: .automatic)
 
         }
-//        .alert(isPresented: $showErrorAlert) {
-//            Alert(title: Text("Fehler beim Scannen vom Produkt"), message: Text("\(viewModelScanner.productDetail?.status_verbose ?? "Kein Produkt gefunden")"), dismissButton: .default(Text("Verstanden")) {
-//                viewModelScanner.navigateToDetailView = false  // Zurück zur vorherigen Ansicht
-//                viewModelScanner.productDetail = nil
-//            })
-//                
-//        }
         .alert(isPresented: $errorHandler.showError) {
             Alert(
                 title: Text("Error"),
