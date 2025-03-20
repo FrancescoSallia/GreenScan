@@ -27,7 +27,6 @@ struct GreenScanApp: App {
                     Tab("Verlauf", systemImage: "clock.arrow.trianglehead.counterclockwise.rotate.90") {
                         ListsView(viewModelScanner: viewModelScanner)
                             .modelContainer(for: [ScannedProduct.self])
-
                     }
                 }
                 .onAppear {
